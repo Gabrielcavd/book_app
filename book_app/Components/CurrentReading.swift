@@ -43,7 +43,7 @@ struct CurrentReading: View {
                     y: 4
                 )
         )
-        .padding(.horizontal)
+        
         
     }
 }

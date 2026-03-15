@@ -25,7 +25,7 @@ struct RootTabView: View {
                 }
                 .tag(TabItem.home)
 
-            Text("Clube")
+            BookClubView()
                 .tabItem {
                     Label("Clube", systemImage: "person.3.fill")
                 }

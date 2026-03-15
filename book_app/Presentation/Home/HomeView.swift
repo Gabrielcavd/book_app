@@ -28,12 +28,12 @@ struct HomeView: View {
                 }
                 .padding(.horizontal)
                 CurrentReading()
+                    .padding(.horizontal)
                 FeaturedBooksSectionHome()
                 FeaturedClubsSection()
             }
         }
         .padding(.top)
-        
     }
 }
 
