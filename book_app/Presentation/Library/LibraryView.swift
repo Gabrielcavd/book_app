@@ -16,15 +16,7 @@ struct LibraryView: View {
     var body: some View {
         ScrollView(.vertical) {
             VStack(alignment: .leading, spacing: 24) {
-                VStack(alignment: .leading) {
-                    Text("Sua biblioteca")
-                        .font(.title2)
-                        .fontWeight(.bold)
-                    Text("Todos os livros que você adicionou")
-                        .font(.footnote)
-                        .foregroundStyle(.secondary)
-                }
-
+                LibraryViewHeader()
                 TextField("Pesquise por autor ou título", text: $text)
                     .safeAreaInset(edge: .leading) { Image(systemName: "magnifyingglass") }
                     .padding(15)
@@ -53,7 +45,6 @@ struct LibraryView: View {
                 case .naolidos:
                     Text("Não lidos")
                 }
-               
             }
         }
         .padding(.top)
