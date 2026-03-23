@@ -31,7 +31,7 @@ struct RootTabView: View {
                 }
                 .tag(TabItem.club)
 
-            Text("Biblioteca")
+            LibraryView()
                 .tabItem {
                     Label("Biblioteca", systemImage: "books.vertical.fill")
                 }

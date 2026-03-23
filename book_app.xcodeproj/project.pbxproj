@@ -10,22 +10,9 @@
 		08A9E32A2F59F89D00A769E9 /* book_app.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = book_app.app; sourceTree = BUILT_PRODUCTS_DIR; };
 /* End PBXFileReference section */
 
-/* Begin PBXFileSystemSynchronizedBuildFileExceptionSet section */
-		08A9E3942F5B209D00A769E9 /* Exceptions for "book_app" folder in "book_app" target */ = {
-			isa = PBXFileSystemSynchronizedBuildFileExceptionSet;
-			membershipExceptions = (
-				"book-app-Info.plist",
-			);
-			target = 08A9E3292F59F89D00A769E9 /* book_app */;
-		};
-/* End PBXFileSystemSynchronizedBuildFileExceptionSet section */
-
 /* Begin PBXFileSystemSynchronizedRootGroup section */
 		08A9E32C2F59F89D00A769E9 /* book_app */ = {
 			isa = PBXFileSystemSynchronizedRootGroup;
-			exceptions = (
-				08A9E3942F5B209D00A769E9 /* Exceptions for "book_app" folder in "book_app" target */,
-			);
 			path = book_app;
 			sourceTree = "<group>";
 		};
