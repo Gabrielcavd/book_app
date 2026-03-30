@@ -8,18 +8,30 @@
 import SwiftUI
 
 struct LibraryViewHeader: View {
+    let buttonAction: () -> Void
     var body: some View {
-        VStack(alignment: .leading) {
-            Text("Sua biblioteca")
-                .font(.title2)
-                .fontWeight(.bold)
-            Text("Todos os livros que você adicionou")
-                .font(.footnote)
-                .foregroundStyle(.secondary)
+        HStack {
+            VStack(alignment: .leading) {
+                Text("Sua biblioteca")
+                    .font(.title2)
+                    .fontWeight(.bold)
+                Text("Todos os livros que você adicionou")
+                    .font(.footnote)
+                    .foregroundStyle(.secondary)
+            }
+            Spacer()
+            Button {
+                buttonAction()
+            } label: {
+                Image(systemName: "plus")
+                    .font(.title)
+            }
+
         }
+        
     }
 }
 
 #Preview {
-    LibraryViewHeader()
+    LibraryViewHeader(buttonAction: {})
 }

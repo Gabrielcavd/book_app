@@ -8,6 +8,11 @@
 import SwiftUI
 
 struct BookDetailView: View {
+    @State private var isBookSaved = false
+    func saveBook() {
+        isBookSaved = true
+    }
+
     var body: some View {
         ScrollView(.vertical) {
             VStack(alignment: .leading) {
@@ -29,7 +34,7 @@ struct BookDetailView: View {
                     .padding(.vertical)
                 Text("Comentários")
                     .fontWeight(.semibold)
-                ForEach(1..<5) { _ in
+                ForEach(1 ..< 5) { _ in
                     BookDetailComments()
                 }
             }
@@ -39,9 +44,17 @@ struct BookDetailView: View {
         .toolbar {
             ToolbarItem(placement: .topBarTrailing) {
                 HStack {
-                    Image(systemName: "bookmark")
-                        .font(.title3)
-                        .padding(.trailing, 15)
+                    Menu {
+                        Button("Lidos", action: saveBook)
+                        Button("Favoritos", action: saveBook)
+                        Button("Não lidos", action: saveBook)
+                    } label: {
+                        Image(systemName: isBookSaved ? "bookmark.fill" : "bookmark")
+                            .font(.title3)
+                            .padding(.trailing, 15)
+                            .tint(.primary)
+                    }
+
                     Image(systemName: "square.and.arrow.up")
                         .font(.title3)
                 }

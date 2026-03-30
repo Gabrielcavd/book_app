@@ -19,13 +19,13 @@ struct ProfileView: View {
                     ProfileFeaturedCard(image: "heart", title: "Lista", value: "12")
                 }
                 .frame(maxWidth: .infinity, alignment: .center)
-                .padding(.horizontal)
 
                 PofileInfoHstack(key: "Autor favorito:", value: "JK Rowling")
                 PofileInfoHstack(key: "Páginas lidas:", value: "15200 Páginas")
                 PofileInfoHstack(key: "Gênero favorito:", value: "Fantasia")
 
                 ProfileQuote()
+                    .padding(.horizontal, -16)
                 
                 VStack(alignment: .leading) {
                     Text("Resenhas")
@@ -36,8 +36,8 @@ struct ProfileView: View {
                     BookDetailComments()
                     
                 }
-                .padding(.horizontal)
             }
+            .padding(.horizontal)
         }
     }
 }

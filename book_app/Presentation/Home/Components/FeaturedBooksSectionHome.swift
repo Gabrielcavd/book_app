@@ -12,12 +12,12 @@ struct FeaturedBooksSectionHome: View {
         VStack {
             HStack {
                 Text("Destaques")
-                    .font(.title3)
+                    .font(.title2)
                     .fontWeight(.semibold)
                 Spacer()
                 Button("Ver mais") {
                 }
-                .font(.callout)
+                .font(.footnote)
             }
             .padding(.horizontal)
             ScrollView(.horizontal) {

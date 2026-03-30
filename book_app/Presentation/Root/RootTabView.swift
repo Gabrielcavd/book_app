@@ -37,7 +37,7 @@ struct RootTabView: View {
                 }
                 .tag(TabItem.library)
 
-            Text("Perfil")
+            ProfileView()
                 .tabItem {
                     Label("Perfil", systemImage: "person.crop.circle.fill")
                 }

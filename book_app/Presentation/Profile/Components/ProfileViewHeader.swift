@@ -33,7 +33,7 @@ struct ProfileViewHeader: View {
                 }
             }
         }
-        .padding()
+        .padding(.vertical)
     }
 }
 

@@ -12,12 +12,12 @@ struct FeaturedClubsSection: View {
         VStack {
             HStack {
                 Text("Clubes que você participa")
-                    .font(.title3)
+                    .font(.title2)
                     .fontWeight(.semibold)
                 Spacer()
                 Button("Ver todos") {
                 }
-                .font(.callout)
+                .font(.footnote)
             }
             ForEach(0 ..< 3) { _ in
                 HStack {

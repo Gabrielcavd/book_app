@@ -19,7 +19,6 @@ struct PofileInfoHstack: View {
             Text(value)
                 .font(.headline)
         }
-        .padding(.horizontal)
     }
 }
 
