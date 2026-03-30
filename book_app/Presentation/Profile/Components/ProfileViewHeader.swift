@@ -11,7 +11,7 @@ struct ProfileViewHeader: View {
     var body: some View {
         VStack(alignment: .leading) {
             Text("Perfil")
-                .font(.title)
+                .font(.title2)
                 .fontWeight(.bold)
             HStack(alignment: .center) {
                 Image("avatar")
@@ -21,7 +21,7 @@ struct ProfileViewHeader: View {
                     .clipShape(Circle())
                 VStack(alignment: .leading) {
                     Text("Gabriel Dantas")
-                        .font(.title2)
+                        .font(.title3)
                         .fontWeight(.bold)
                     Text("gabriel@gmail.com")
                         .tint(.secondary)

@@ -11,16 +11,14 @@ struct ProfileFeaturedCard: View {
     let image: String
     let title: String
     let value: String
-    
+
     var body: some View {
-        VStack(spacing: 5) {
+        VStack(alignment: .center spacing: 5) {
             Image(systemName: image)
                 .font(.title2)
             Text(value)
-                .font(.headline)
                 .fontWeight(.bold)
             Text(title)
-                .font(.headline)
                 .fontWeight(.semibold)
                 .foregroundStyle(.secondary)
         }

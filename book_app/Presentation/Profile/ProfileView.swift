@@ -12,7 +12,6 @@ struct ProfileView: View {
         ScrollView(.vertical) {
             VStack(alignment: .leading, spacing: 24) {
                 ProfileViewHeader()
-
                 HStack(spacing: 15) {
                     ProfileFeaturedCard(image: "book.closed", title: "Lidos", value: "24")
                     ProfileFeaturedCard(image: "book", title: "Lendo", value: "2")

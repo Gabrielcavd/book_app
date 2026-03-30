@@ -13,11 +13,10 @@ struct PofileInfoHstack: View {
     var body: some View {
         HStack(alignment: .center) {
             Text(key)
-                .font(.headline)
                 .foregroundStyle(.secondary)
             Spacer()
             Text(value)
-                .font(.headline)
+                .fontWeight(.semibold)
         }
     }
 }
