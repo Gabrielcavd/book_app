@@ -13,7 +13,7 @@ struct ProfileFeaturedCard: View {
     let value: String
 
     var body: some View {
-        VStack(alignment: .center spacing: 5) {
+        VStack(alignment: .center, spacing: 5) {
             Image(systemName: image)
                 .font(.title2)
             Text(value)
