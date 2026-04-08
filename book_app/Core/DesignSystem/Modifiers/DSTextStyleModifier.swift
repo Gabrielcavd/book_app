@@ -20,19 +20,19 @@ struct DSTextStyleModifier: ViewModifier {
                 
             case .titleMedium:
                 content
-                    .font(.system(size: 24))
+                    .font(.system(size: 28))
                     .fontWeight(.semibold)
                     .foregroundColor(.black)
                 
             case .titleSmall:
                 content
-                    .font(.system(size: 16))
+                    .font(.system(size: 17))
                     .fontWeight(.semibold)
                     .foregroundColor(.black)
             
             case .body:
                 content
-                    .font(.system(size: 16))
+                    .font(.system(size: 17))
                     .foregroundStyle(.secondary)
                 
             case .caption:

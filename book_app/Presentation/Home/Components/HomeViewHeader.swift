@@ -7,27 +7,38 @@
 
 import SwiftUI
 
+//TODO: - Pedir a foto do usuário no construtor também 
+
 struct HomeViewHeader: View {
+    let userName: String
+    
     var body: some View {
         HStack(alignment: .center) {
-            Image("avatar")
-                .resizable()
-                .scaledToFit()
-                .frame(width: 60, height: 60)
-                .clipShape(Circle())
-            VStack(alignment: .leading) {
-                Text("Oi Gabriel!")
-                    .font(.title2)
-                    .fontWeight(.bold)
-                Text("O que você vai ler hoje?")
-                    .font(.footnote)
-                    .foregroundStyle(.secondary)
-            }
+            avatarImage
+            textsColumn
         }
-        .padding(.horizontal)
+    }
+    
+    var avatarImage: some View {
+        Image("avatar")
+            .resizable()
+            .scaledToFit()
+            .frame(width: 60, height: 60)
+            .clipShape(Circle())
+    }
+    
+    var textsColumn: some View {
+        VStack(alignment: .leading) {
+            Text("Oi \(userName)!")
+                .textStyle(.titleMedium)
+                .lineLimit(1)
+            
+            Text("Qual é a boa de hoje?")
+                .textStyle(.body)
+        }
     }
 }
 
 #Preview {
-    HomeViewHeader()
+    HomeViewHeader(userName: "Gabriel Merenfeld")
 }

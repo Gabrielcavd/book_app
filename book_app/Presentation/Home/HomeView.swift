@@ -11,14 +11,14 @@ struct HomeView: View {
     var body: some View {
         ScrollView(.vertical) {
             VStack(alignment: .leading, spacing: 24) {
-                HomeViewHeader()
+                HomeViewHeader(userName: "Gabriel Cavalcante")
                 CurrentReading()
-                    .padding(.horizontal)
                 FeaturedBooksSectionHome()
                 FeaturedClubsSection()
             }
         }
         .padding(.top)
+        .padding(.horizontal, 24)
     }
 }
 
