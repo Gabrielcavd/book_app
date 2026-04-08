@@ -7,23 +7,25 @@
 
 import SwiftUI
 
-enum TabItem: Int {
-    case home
-    case club
-    case library
-    case profile
-}
-
 struct RootTabView: View {
-    @State private var selection: TabItem = .home
+    @Environment(AppCoordinator.self) private var coordinator
 
     var body: some View {
-        TabView(selection: $selection) {
-            HomeView()
-                .tabItem {
-                    Label("Home", systemImage: "house.fill")
-                }
-                .tag(TabItem.home)
+        @Bindable var coordinator = coordinator
+        TabView(selection: $coordinator.selectedTab) {
+            NavigationStack(path: $coordinator.homePath) {
+                HomeView()
+                    .navigationDestination(for: BookRoute.self) { route in
+                        switch route {
+                        case .detail:
+                            BookDetailView()
+                        }
+                    }
+            }
+            .tabItem {
+                Label("Home", systemImage: "house.fill")
+            }
+            .tag(TabItem.home)
 
             BookClubView()
                 .tabItem {
@@ -31,11 +33,19 @@ struct RootTabView: View {
                 }
                 .tag(TabItem.club)
 
-            LibraryView()
-                .tabItem {
-                    Label("Biblioteca", systemImage: "books.vertical.fill")
-                }
-                .tag(TabItem.library)
+            NavigationStack(path: $coordinator.libraryPath) {
+                LibraryView()
+                    .navigationDestination(for: BookRoute.self) { route in
+                        switch route {
+                        case .detail:
+                            BookDetailView()
+                        }
+                    }
+            }
+            .tabItem {
+                Label("Biblioteca", systemImage: "books.vertical.fill")
+            }
+            .tag(TabItem.library)
 
             ProfileView()
                 .tabItem {
@@ -48,4 +58,5 @@ struct RootTabView: View {
 
 #Preview {
     RootTabView()
+        .environment(AppCoordinator.previewLoggedIn())
 }

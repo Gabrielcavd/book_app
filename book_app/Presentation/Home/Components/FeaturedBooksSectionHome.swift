@@ -36,4 +36,5 @@ struct FeaturedBooksSectionHome: View {
 
 #Preview {
     FeaturedBooksSectionHome()
+        .environment(AppCoordinator.previewLoggedIn())
 }

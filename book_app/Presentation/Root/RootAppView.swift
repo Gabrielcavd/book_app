@@ -8,14 +8,26 @@
 import SwiftUI
 
 struct RootAppView: View {
-    @State private var isLoggedIn = false
+    @State private var coordinator = AppCoordinator()
 
     var body: some View {
-        if isLoggedIn {
-            RootTabView()
-        } else {
-            LoginView(isLoggedIn: $isLoggedIn)
+        @Bindable var coordinator = coordinator
+        Group {
+            if coordinator.isLoggedIn {
+                RootTabView()
+            } else {
+                NavigationStack(path: $coordinator.authPath) {
+                    LoginView()
+                        .navigationDestination(for: AuthRoute.self) { route in
+                            switch route {
+                            case .register:
+                                RegisterView()
+                            }
+                        }
+                }
+            }
         }
+        .environment(coordinator)
     }
 }
 

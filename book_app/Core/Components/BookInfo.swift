@@ -8,8 +8,13 @@
 import SwiftUI
 
 struct BookInfo: View {
+    @Environment(AppCoordinator.self) private var coordinator
+    var navigationStack: BookNavigationStack = .home
+
     var body: some View {
-        NavigationLink(destination: BookDetailView()) {
+        Button {
+            coordinator.pushBookDetail(on: navigationStack)
+        } label: {
             VStack(alignment: .leading) {
                 ZStack(alignment: .topTrailing) {
                     Image("book")
@@ -47,4 +52,5 @@ struct BookInfo: View {
 
 #Preview {
     BookInfo()
+        .environment(AppCoordinator.previewLoggedIn())
 }

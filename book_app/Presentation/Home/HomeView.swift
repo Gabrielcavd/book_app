@@ -9,21 +9,22 @@ import SwiftUI
 
 struct HomeView: View {
     var body: some View {
-        NavigationStack {
-            ScrollView(.vertical) {
-                VStack(alignment: .leading, spacing: 24) {
-                    HomeViewHeader()
-                    CurrentReading()
-                        .padding(.horizontal)
-                    FeaturedBooksSectionHome()
-                    FeaturedClubsSection()
-                }
+        ScrollView(.vertical) {
+            VStack(alignment: .leading, spacing: 24) {
+                HomeViewHeader()
+                CurrentReading()
+                    .padding(.horizontal)
+                FeaturedBooksSectionHome()
+                FeaturedClubsSection()
             }
-            .padding(.top)
         }
+        .padding(.top)
     }
 }
 
 #Preview {
-    HomeView()
+    NavigationStack {
+        HomeView()
+    }
+    .environment(AppCoordinator.previewLoggedIn())
 }
