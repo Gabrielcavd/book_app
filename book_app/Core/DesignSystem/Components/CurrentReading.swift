@@ -7,44 +7,60 @@
 
 import SwiftUI
 
+// TODO: - Transformar em um botão e receber título, autor, páginas e a action no construtor
+
 struct CurrentReading: View {
     var body: some View {
         HStack {
-            Image("book")
-                .resizable()
-                .scaledToFit()
-                .frame(width: 76, height: 98)
-            VStack(alignment: .leading, spacing: 5) {
-                Text("LEITURA ATUAL")
-                    .font(.caption)
-                    .foregroundStyle(.secondary)
-                Text("Senhor dos anéis")
-                    .font(.subheadline)
-                    .fontWeight(.semibold)
-                Text("J.R.R Tolkien")
-                    .font(.caption)
-                    .foregroundStyle(.secondary)
-                HStack {
-                    ProgressView(value: 0.8)
-                    Text("80%")
-                        .font(.caption)
-                        .foregroundStyle(.secondary)
-                }
+            bookImage
+            VStack(alignment: .leading, spacing: 16) {
+                titleAndAuthorColumn
+                progressBookColumn
             }
         }
-        .padding()
+        .padding(.horizontal, 24)
+        .padding(.vertical, 24)
         .background(
             RoundedRectangle(cornerRadius: 24)
                 .fill(Color(.systemBackground))
-                .shadow(
-                    color: .black.opacity(0.08),
-                    radius: 10,
-                    x: 0,
-                    y: 4
-                )
+                .defaultShadow()
         )
-        
-        
+        .defaultShadow()
+    }
+    
+    var bookImage: some View {
+        Image("book")
+            .resizable()
+            .scaledToFit()
+            .frame(width: 100, height: 120)
+    }
+    
+    var titleAndAuthorColumn: some View {
+        VStack(alignment: .leading, spacing: 4) {
+            Text("Senhor dos anéis")
+                .textStyle(.titleSmall)
+                .lineLimit(2)
+            
+            Text("J.R.R Tolkien")
+                .textStyle(.body)
+        }
+    }
+    
+    var progressBookColumn: some View {
+        VStack(alignment: .leading, spacing: 8) {
+            ProgressView(value: 0.8)
+                .tint(.black)
+            
+            HStack {
+                Text("80% completo")
+                    .textStyle(.caption)
+                
+                Spacer()
+                
+                Text("Página 100 de 200")
+                    .textStyle(.caption)
+            }
+        }
     }
 }
 

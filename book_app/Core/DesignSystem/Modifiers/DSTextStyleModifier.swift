@@ -17,26 +17,28 @@ struct DSTextStyleModifier: ViewModifier {
                     .font(.system(size: 56))
                     .fontWeight(.black)
                     .foregroundColor(.black)
-                    .lineSpacing(64)
                 
-            case .title:
+            case .titleMedium:
                 content
                     .font(.system(size: 24))
                     .fontWeight(.semibold)
                     .foregroundColor(.black)
-                    .lineSpacing(32)
                 
+            case .titleSmall:
+                content
+                    .font(.system(size: 16))
+                    .fontWeight(.semibold)
+                    .foregroundColor(.black)
+            
             case .body:
                 content
                     .font(.system(size: 16))
                     .foregroundStyle(.secondary)
-                    .lineSpacing(24)
                 
             case .caption:
                 content
-                    .font(.system(size: 12))
+                    .font(.system(size: 14))
                     .foregroundStyle(.secondary)
-                    .lineSpacing(20)
         }
     }
 }

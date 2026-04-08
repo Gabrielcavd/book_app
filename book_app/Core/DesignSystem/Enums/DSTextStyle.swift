@@ -7,7 +7,8 @@
 
 enum DSTextStyle {
     case titleLarge
-    case title
+    case titleMedium
+    case titleSmall
     case body
     case caption
 }
