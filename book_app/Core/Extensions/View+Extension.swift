@@ -11,4 +11,8 @@ extension View {
     func textStyle(_ style: DSTextStyle) -> some View {
         self.modifier(DSTextStyleModifier(style: style))
     }
+    
+    func defaultShadow() -> some View {
+        self.modifier(DSDefaultShadowModifier())
+    }
 }
