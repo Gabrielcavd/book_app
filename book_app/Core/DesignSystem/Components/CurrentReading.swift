@@ -23,7 +23,6 @@ struct CurrentReading: View {
         .background(
             RoundedRectangle(cornerRadius: 24)
                 .fill(Color(.systemBackground))
-                .defaultShadow()
         )
         .defaultShadow()
     }
