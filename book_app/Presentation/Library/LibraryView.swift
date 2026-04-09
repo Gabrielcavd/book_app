@@ -8,6 +8,7 @@
 import SwiftUI
 
 struct LibraryView: View {
+    @Environment(AppCoordinator.self) private var coordinator
     @State private var text: String = ""
     @State private var selected: LibraryTab = .todos
     @State private var showSheet: Bool = false
@@ -39,7 +40,9 @@ struct LibraryView: View {
                 case .todos:
                     LazyVGrid(columns: adaptiveColumn, spacing: 20) {
                         ForEach(1 ... 10, id: \.self) { _ in
-                            BookInfo(navigationStack: .library)
+                            BookInfo(callback: {
+                                coordinator.pushBookDetail(on: .library)
+                            })
                         }
                     }
                 case .lidos:
