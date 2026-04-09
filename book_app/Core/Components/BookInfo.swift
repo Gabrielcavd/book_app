@@ -7,14 +7,10 @@
 
 import SwiftUI
 
-struct BookInfo: View {
-    @Environment(AppCoordinator.self) private var coordinator
-    var navigationStack: BookNavigationStack = .home
-
+struct BookInfo: View {    
+    let callback: () -> Void
     var body: some View {
-        Button {
-            coordinator.pushBookDetail(on: navigationStack)
-        } label: {
+        Button(action: callback) {
             VStack(alignment: .leading) {
                 ZStack(alignment: .topTrailing) {
                     Image("book")
@@ -51,6 +47,5 @@ struct BookInfo: View {
 }
 
 #Preview {
-    BookInfo()
-        .environment(AppCoordinator.previewLoggedIn())
+    BookInfo(callback: {})
 }
