@@ -51,12 +51,12 @@ struct DSCurrentReading: View {
                 .tint(.black)
             
             HStack {
-                Text("80% completo")
+                Text("Página 100 de 200")
                     .textStyle(.caption)
                 
                 Spacer()
                 
-                Text("Página 100 de 200")
+                Text("100%")
                     .textStyle(.caption)
             }
         }

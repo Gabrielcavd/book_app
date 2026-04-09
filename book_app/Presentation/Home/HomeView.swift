@@ -19,6 +19,7 @@ struct HomeView: View {
         ScrollView(.vertical) {
             VStack(alignment: .leading, spacing: 40) {
                 HomeViewHeader(userName: "Gabriel Cavalcante")
+                    .padding(.top, 8)
                 
                 CurrentReading(seeMoreAction: {})
                 
@@ -41,8 +42,7 @@ struct HomeView: View {
                 )
             }
         }
-        .padding(.vertical)
-        .padding(.horizontal, 24)
+        .padding(.horizontal, 16)
         .scrollIndicators(.hidden)
     }
 }
