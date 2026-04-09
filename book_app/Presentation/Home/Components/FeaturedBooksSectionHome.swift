@@ -8,8 +8,6 @@
 import SwiftUI
 
 struct FeaturedBooksSectionHome: View {
-    @Environment(AppCoordinator.self) private var coordinator
-    
     var body: some View {
         VStack {
             HStack {
@@ -25,9 +23,7 @@ struct FeaturedBooksSectionHome: View {
             ScrollView(.horizontal) {
                 HStack {
                     ForEach(0 ..< 4) { _ in
-                        BookInfo(callback: {
-                            coordinator.pushBookDetail(on: .home)
-                        })
+                        BookInfo()
                             .padding(.horizontal, 5)
                     }
                 }

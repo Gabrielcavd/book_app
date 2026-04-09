@@ -8,42 +8,17 @@
 import SwiftUI
 
 struct HomeView: View {
-    let books = [
-        BookInfo(),
-        BookInfo(),
-        BookInfo(),
-        BookInfo(),
-    ]
-    
     var body: some View {
         ScrollView(.vertical) {
-            VStack(alignment: .leading, spacing: 40) {
+            VStack(alignment: .leading, spacing: 24) {
                 HomeViewHeader(userName: "Gabriel Cavalcante")
-                
-                CurrentReading(seeMoreAction: {})
-                
-                DSBookCarousel(
-                    title: "Lidos",
-                    seeMoreAction: {},
-                    books: books
-                )
-                
-                DSBookCarousel(
-                    title: "Ler depois",
-                    seeMoreAction: {},
-                    books: books
-                )
-                
-                DSBookCarousel(
-                    title: "Não gostei",
-                    seeMoreAction: {},
-                    books: books
-                )
+                CurrentReading()
+                FeaturedBooksSectionHome()
+                FeaturedClubsSection()
             }
         }
-        .padding(.vertical)
+        .padding(.top)
         .padding(.horizontal, 24)
-        .scrollIndicators(.hidden)
     }
 }
 

@@ -9,7 +9,7 @@ import SwiftUI
 
 // TODO: - Transformar em um botão e receber título, autor, páginas e a action no construtor
 
-struct DSCurrentReading: View {
+struct CurrentReading: View {
     var body: some View {
         HStack {
             bookImage
@@ -64,5 +64,5 @@ struct DSCurrentReading: View {
 }
 
 #Preview {
-    DSCurrentReading()
+    CurrentReading()
 }

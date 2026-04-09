@@ -20,7 +20,7 @@ struct DSTextStyleModifier: ViewModifier {
                 
             case .titleMedium:
                 content
-                    .font(.system(size: 24))
+                    .font(.system(size: 28))
                     .fontWeight(.semibold)
                     .foregroundColor(.black)
                 
