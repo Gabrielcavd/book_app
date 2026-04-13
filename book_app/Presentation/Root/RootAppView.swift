@@ -22,6 +22,8 @@ struct RootAppView: View {
                             switch route {
                             case .register:
                                 RegisterView()
+                            case .forgotPassword:
+                                ForgotPasswordView()
                             }
                         }
                 }
