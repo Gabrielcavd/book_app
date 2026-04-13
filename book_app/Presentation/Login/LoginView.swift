@@ -1,5 +1,5 @@
 //
-//  ContentView.swift
+//  LoginView.swift
 //  book_app
 //
 //  Created by Gabriel Cavalcante on 05/03/26.
@@ -10,8 +10,7 @@ import SwiftUI
 struct LoginView: View {
     @Environment(AppCoordinator.self) private var coordinator
 
-    @State private var email: String = ""
-    @State private var password: String = ""
+    @State private var viewModel = LoginViewModel()
 
     var body: some View {
         ScrollView(.vertical) {
@@ -25,17 +24,35 @@ struct LoginView: View {
                     .font(.largeTitle)
                     .fontWeight(.semibold)
 
-                TextFieldLabel(text: $email, label: "Email", titleKey: "Insira seu email")
-                    .padding(.vertical, 28)
+                TextFieldLabel(
+                    text: $viewModel.email,
+                    label: "Email",
+                    titleKey: "Insira seu email",
+                    errorMessage: viewModel.emailError
+                )
+                .padding(.vertical, 28)
+                .onChange(of: viewModel.email) { _, _ in
+                    viewModel.clearEmailError()
+                }
 
-                TextFieldLabel(text: $password, label: "Senha", titleKey: "Insira sua senha")
+                TextFieldLabel(
+                    text: $viewModel.password,
+                    label: "Senha",
+                    titleKey: "Insira sua senha",
+                    isSecure: true,
+                    errorMessage: viewModel.passwordError
+                )
+                .onChange(of: viewModel.password) { _, _ in
+                    viewModel.clearPasswordError()
+                }
 
                 Button("Esqueceu sua senha?") {
+                    coordinator.showForgotPassword()
                 }
                 .frame(maxWidth: .infinity, alignment: .trailing)
 
                 PrimaryButton(title: "Entrar") {
-                    coordinator.logIn()
+                    viewModel.logIn(using: coordinator)
                 }
                 .padding(EdgeInsets(top: 30, leading: 0, bottom: 20, trailing: 0))
 
