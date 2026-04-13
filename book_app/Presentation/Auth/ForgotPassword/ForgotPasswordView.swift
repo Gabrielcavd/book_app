@@ -8,8 +8,8 @@
 import SwiftUI
 
 struct ForgotPasswordView: View {
-    @State private var email: String = ""
-    
+    @State private var viewModel = ForgotPasswordViewModel()
+
     var body: some View {
         ScrollView(.vertical) {
             VStack(alignment: .leading) {
@@ -23,10 +23,19 @@ struct ForgotPasswordView: View {
                     .fontWeight(.semibold)
                     .padding(.bottom, 28)
 
-                TextFieldLabel(text: $email, label: "Email", titleKey: "Insira seu email")
-                    .padding(.vertical, 15)              
+                TextFieldLabel(
+                    text: $viewModel.email,
+                    label: "Email",
+                    titleKey: "Insira seu email",
+                    errorMessage: viewModel.emailError
+                )
+                .padding(.vertical, 15)
+                .onChange(of: viewModel.email) { _, _ in
+                    viewModel.clearEmailError()
+                }
 
                 PrimaryButton(title: "Enviar link") {
+                    viewModel.submitResetRequest()
                 }
                 .padding(EdgeInsets(top: 60, leading: 0, bottom: 20, trailing: 0))
             }

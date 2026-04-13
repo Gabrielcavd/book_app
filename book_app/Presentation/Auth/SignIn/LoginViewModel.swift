@@ -26,15 +26,8 @@ final class LoginViewModel {
 
     @discardableResult
     func validateEmail() -> Bool {
-        let trimmed = email.trimmingCharacters(in: .whitespacesAndNewlines)
-        if trimmed.isEmpty {
-            emailError = "Informe seu email."
-            return false
-        }
-        let emailRegex = "[A-Z0-9a-z._%+-]+@[A-Za-z0-9.-]+\\.[A-Za-z]{2,64}"
-        let predicate = NSPredicate(format: "SELF MATCHES %@", emailRegex)
-        guard predicate.evaluate(with: trimmed) else {
-            emailError = "Email inválido."
+        if let message = AuthInputValidation.emailValidationMessage(for: email) {
+            emailError = message
             return false
         }
         emailError = nil
@@ -43,12 +36,8 @@ final class LoginViewModel {
 
     @discardableResult
     func validatePassword() -> Bool {
-        if password.isEmpty {
-            passwordError = "Informe sua senha."
-            return false
-        }
-        if password.count < 6 {
-            passwordError = "A senha deve ter pelo menos 6 caracteres."
+        if let message = AuthInputValidation.passwordValidationMessage(for: password) {
+            passwordError = message
             return false
         }
         passwordError = nil
