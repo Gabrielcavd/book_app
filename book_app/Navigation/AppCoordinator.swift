@@ -16,6 +16,7 @@ enum TabItem: Int, Hashable {
 
 enum AuthRoute: Hashable {
     case register
+    case forgotPassword
 }
 
 enum BookRoute: Hashable {
@@ -50,6 +51,10 @@ final class AppCoordinator {
 
     func showRegister() {
         authPath.append(AuthRoute.register)
+    }
+
+    func showForgotPassword() {
+        authPath.append(AuthRoute.forgotPassword)
     }
 
     func pushBookDetail(on stack: BookNavigationStack) {

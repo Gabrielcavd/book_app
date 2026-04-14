@@ -11,27 +11,35 @@ struct TextFieldLabel: View {
     @Binding var text: String
     let label: String
     let titleKey: String
-    let isPassWord: Bool = false
+    var isSecure: Bool = false
+    var errorMessage: String? = nil
+
+    private var borderColor: Color {
+        errorMessage == nil ? Color.secondary.opacity(0.5) : Color.red.opacity(0.8)
+    }
 
     var body: some View {
-        VStack(alignment: .leading) {
+        VStack(alignment: .leading, spacing: 6) {
             Text(label)
                 .font(.subheadline)
 
-            if isPassWord {
-                SecureField(titleKey, text: $text)
-                    .padding(15)
-                    .overlay(
-                        RoundedRectangle(cornerRadius: 7)
-                            .stroke(.secondary.opacity(0.5), lineWidth: 1)
-                    )
-            } else {
-                TextField(titleKey, text: $text)
-                    .padding(15)
-                    .overlay(
-                        RoundedRectangle(cornerRadius: 7)
-                            .stroke(.secondary.opacity(0.5), lineWidth: 1)
-                    )
+            Group {
+                if isSecure {
+                    SecureField(titleKey, text: $text)
+                } else {
+                    TextField(titleKey, text: $text)
+                }
+            }
+            .padding(15)
+            .overlay(
+                RoundedRectangle(cornerRadius: 7)
+                    .stroke(borderColor, lineWidth: 1)
+            )
+
+            if let errorMessage, !errorMessage.isEmpty {
+                Text(errorMessage)
+                    .font(.caption)
+                    .foregroundStyle(.red)
             }
         }
     }
