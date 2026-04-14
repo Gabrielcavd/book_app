@@ -29,7 +29,7 @@ struct HomeViewHeader: View {
     
     var textsColumn: some View {
         VStack(alignment: .leading) {
-            Text("Oi \(userName)!")
+            Text(userName)
                 .textStyle(.titleMedium)
                 .lineLimit(1)
             

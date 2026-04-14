@@ -37,7 +37,7 @@ struct BookClubView: View {
                     .pickerStyle(.segmented)
                     switch selected {
                     case .leituras:
-                        DSCurrentReading()
+                        CurrentReading(seeMoreAction: {})
                     case .chat:
                         Text("Chat")
                     case .votacoes:

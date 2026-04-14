@@ -17,11 +17,13 @@ struct HomeView: View {
     
     var body: some View {
         ScrollView(.vertical) {
-            VStack(alignment: .leading, spacing: 40) {
+            VStack(alignment: .leading, spacing: 24) {
                 HomeViewHeader(userName: "Gabriel Cavalcante")
-                    .padding(.top, 8)
+                    .padding(.top, 16)
+                    .padding(.horizontal, 16)
                 
                 CurrentReading(seeMoreAction: {})
+                    .padding(.horizontal, 16)
                 
                 DSBookCarousel(
                     title: "Lidos",
@@ -40,9 +42,9 @@ struct HomeView: View {
                     seeMoreAction: {},
                     books: books
                 )
+                .padding(.bottom, 16)
             }
         }
-        .padding(.horizontal, 16)
         .scrollIndicators(.hidden)
     }
 }

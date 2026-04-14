@@ -1,17 +1,17 @@
 //
-//  ConcurrentReading.swift
+//  CurrentReading.swift
 //  book_app
 //
-//  Created by Gabriel Merenfeld on 08/04/26.
+//  Created by Gabriel Merenfeld on 10/04/26.
 //
 
 import SwiftUI
 
 struct CurrentReading: View {
-    let seeMoreAction: () -> Void
+    var seeMoreAction: () -> Void
     
     var body: some View {
-        VStack {
+        VStack(spacing: 8) {
             titleAndSeeMoreButtonRow
             DSCurrentReading()
         }
@@ -20,13 +20,13 @@ struct CurrentReading: View {
     var titleAndSeeMoreButtonRow: some View {
         HStack {
             Text("Continuar lendo")
-                .textStyle(.titleMedium)
+                .textStyle(.titleSmall)
             
             Spacer()
             
             Button("Ver mais", action: seeMoreAction)
                 .foregroundColor(.blue)
-                .textStyle(.titleSmall)
+                .textStyle(.body)
         }
     }
 }

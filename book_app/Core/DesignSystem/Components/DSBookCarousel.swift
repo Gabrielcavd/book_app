@@ -2,7 +2,7 @@
 //  DSBookCarousel.swift
 //  book_app
 //
-//  Created by Gabriel Merenfeld on 08/04/26.
+//  Created by Gabriel Merenfeld on 10/04/26.
 //
 
 import SwiftUI
@@ -15,45 +15,42 @@ struct DSBookCarousel: View {
     var body: some View {
         VStack {
             titleAndSeeMoreButtonRow
-            booksScrollHorizontal
+            booksCarousel
         }
-        .environment(AppCoordinator())
     }
     
     var titleAndSeeMoreButtonRow: some View {
         HStack {
             Text(title)
-                .textStyle(.titleMedium)
+                .textStyle(.titleSmall)
             
             Spacer()
             
             Button("Ver mais", action: seeMoreAction)
                 .foregroundColor(.blue)
-                .textStyle(.titleSmall)
+                .textStyle(.body)
         }
+        .padding(.horizontal, 16)
     }
     
-    var booksScrollHorizontal: some View {
+    var booksCarousel: some View {
         ScrollView(.horizontal) {
             HStack {
-                ForEach(0 ..< books.count, id: \.self) { index in
+                ForEach(0 ..< books.count) { index in
                     books[index]
-                        .padding(.horizontal, 5)
+                        .padding(.horizontal, 8)
                 }
             }
         }
-        .scrollIndicators(.hidden)
+        .contentMargins(.horizontal, 4, for: .scrollContent)
     }
 }
 
 #Preview {
     DSBookCarousel(
-        title: "Destaques",
+        title: "lidos",
         seeMoreAction: {},
         books: [
-            BookInfo(),
-            BookInfo(),
-            BookInfo(),
             BookInfo(),
             BookInfo(),
             BookInfo(),
