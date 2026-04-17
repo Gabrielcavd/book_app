@@ -21,17 +21,21 @@ struct BookDetailView: View {
                     .scaledToFit()
                     .frame(width: 220, height: 328)
                     .frame(maxWidth: .infinity)
-                HStack {
-                    Image(systemName: "star.fill")
-                        .foregroundStyle(.orange)
-                        .font(.caption)
-                    Text("4.5")
-                        .font(.footnote)
-                        .fontWeight(.semibold)
-                }
+                
+//                HStack {
+//                    Image(systemName: "star.fill")
+//                        .foregroundStyle(.orange)
+//                        .font(.caption)
+//                    Text("4.5")
+//                        .font(.footnote)
+//                        .fontWeight(.semibold)
+//                }
+                
                 BookDetailInfo()
+                
                 Divider()
                     .padding(.vertical)
+                
                 Text("Comentários")
                     .fontWeight(.semibold)
                 ForEach(1 ..< 5) { _ in
@@ -39,8 +43,9 @@ struct BookDetailView: View {
                 }
             }
         }
+        .scrollIndicators(.hidden)
         .padding(.top)
-        .padding(.horizontal)
+        .padding(.horizontal, 16)
         .toolbar {
             ToolbarItem(placement: .topBarTrailing) {
                 HStack {
