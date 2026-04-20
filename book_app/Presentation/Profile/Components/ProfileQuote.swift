@@ -8,13 +8,30 @@
 import SwiftUI
 
 struct ProfileQuote: View {
+    let quote: String
+    var author: String = ""
+    var emptyStateMessage: String = "Adicione sua citacao favorita para personalizar seu perfil."
+
+    private var hasQuote: Bool {
+        !quote.trimmingCharacters(in: .whitespacesAndNewlines).isEmpty
+    }
+
     var body: some View {
         VStack(alignment: .center, spacing: 8) {
-            Text("“A felicidade pode ser encontrada mesmo nos momentos mais sombrios, se a pessoa se lembrar de acender a luz”")
-                .multilineTextAlignment(.center)
-                .fontWeight(.semibold)
-            Text("Alvo Dumbledore")
-                .font(.subheadline)
+            if hasQuote {
+                Text("\"\(quote)\"")
+                    .multilineTextAlignment(.center)
+                    .fontWeight(.semibold)
+
+                if !author.isEmpty {
+                    Text(author)
+                        .font(.subheadline)
+                }
+            } else {
+                Text(emptyStateMessage)
+                    .multilineTextAlignment(.center)
+                    .fontWeight(.semibold)
+            }
         }
         .frame(maxWidth: .infinity)
         .ignoresSafeArea(.all)
@@ -27,5 +44,5 @@ struct ProfileQuote: View {
 }
 
 #Preview {
-    ProfileQuote()
+    ProfileQuote(quote: "")
 }

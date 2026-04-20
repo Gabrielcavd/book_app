@@ -5,10 +5,14 @@
 //  Created by Gabriel Cavalcante on 28/03/26.
 //
 
+import PhotosUI
 import SwiftUI
+import UIKit
 
 struct RegisterView: View {
     @State private var viewModel = RegisterViewModel()
+    @State private var selectedPhotoItem: PhotosPickerItem?
+    @State private var selectedProfileImage: Image?
 
     var body: some View {
         ScrollView(.vertical) {
@@ -22,6 +26,9 @@ struct RegisterView: View {
                     .font(.largeTitle)
                     .fontWeight(.semibold)
                     .padding(.bottom, 28)
+
+                profilePictureSection
+                    .padding(.bottom, 20)
 
                 TextFieldLabel(
                     text: $viewModel.email,
@@ -75,6 +82,65 @@ struct RegisterView: View {
             }
         }
         .padding()
+        .onChange(of: selectedPhotoItem) { _, newItem in
+            loadSelectedProfileImage(from: newItem)
+        }
+    }
+
+    private var profilePictureSection: some View {
+        VStack(alignment: .center ,spacing: 16) {
+            Group {
+                if let selectedProfileImage {
+                    selectedProfileImage
+                        .resizable()
+                        .scaledToFill()
+                } else {
+                    Image(systemName: "person.crop.circle.fill")
+                        .resizable()
+                        .scaledToFill()
+                        .foregroundStyle(.gray.opacity(0.6))
+                }
+            }
+            .frame(width: 90, height: 90)
+            .background(Color.gray.opacity(0.15))
+            .clipShape(Circle())
+
+            PhotosPicker(
+                selection: $selectedPhotoItem,
+                matching: .images,
+                photoLibrary: .shared()
+            ) {
+                Text("Escolher foto de perfil")
+                    .fontWeight(.semibold)
+                    .padding(.horizontal, 16)
+                    .padding(.vertical, 10)
+                    .background(Color.accentColor.opacity(0.12))
+                    .cornerRadius(10)
+            }
+        }.frame(maxWidth: .infinity, alignment: .center)
+    }
+
+    private func loadSelectedProfileImage(from item: PhotosPickerItem?) {
+        guard let item else {
+            selectedProfileImage = nil
+            return
+        }
+
+        Task {
+            guard
+                let imageData = try? await item.loadTransferable(type: Data.self),
+                let uiImage = UIImage(data: imageData)
+            else {
+                await MainActor.run {
+                    selectedProfileImage = nil
+                }
+                return
+            }
+
+            await MainActor.run {
+                selectedProfileImage = Image(uiImage: uiImage)
+            }
+        }
     }
 }
 
