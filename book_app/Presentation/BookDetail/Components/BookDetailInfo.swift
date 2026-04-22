@@ -31,10 +31,48 @@ struct BookDetailInfo: View {
     }
     
     var bookSpecs: some View {
-        HStack {
-            specItem(icon: "building.columns", title: "Editora", value: "HarperCollins")
-            specItem(icon: "calendar", title: "Publicado em", value: "15 janeiro 2023")
-            specItem(icon: "book", title: "Páginas", value: "192")
+        HStack(alignment: .center, spacing: 4) {
+            VStack(alignment: .center) {
+                Image(systemName: "building.columns")
+                    .font(.custom("title", size: 31.5))
+                    .foregroundStyle(.gray)
+                
+                Text("Editora")
+                    .textStyle(.body)
+                
+                Text("HarperCollins")
+                    .textStyle(.titleSmall)
+                    .lineLimit(1)
+            }
+            .frame(width: 130)
+            
+            VStack {
+                Image(systemName: "calendar")
+                    .font(.custom("title", size: 36.5))
+                    .foregroundStyle(.gray)
+                
+                Text("Publicado em")
+                    .textStyle(.body)
+                
+                Text("15 dezembro 2010")
+                    .textStyle(.titleSmall)
+                    .lineLimit(1)
+            }
+            .frame(width: 150)
+            
+            VStack {
+                Image(systemName: "book")
+                    .font(.custom("title", size: 36.5))
+                    .foregroundStyle(.gray)
+                
+                Text("Páginas")
+                    .textStyle(.body)
+                
+                Text("1900")
+                    .textStyle(.titleSmall)
+                    .lineLimit(1)
+            }
+            .frame(width: 80)
         }
     }
     
@@ -52,6 +90,7 @@ struct BookDetailInfo: View {
                 .lineLimit(1)
         }
         .frame(maxWidth: .infinity, maxHeight: 80)
+        .background(Color.yellow)
     }
     
     var genreTexts: some View {
