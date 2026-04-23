@@ -8,11 +8,10 @@
 import SwiftUI
 
 struct LibraryView: View {
-    @State private var text: String = ""
-    @State private var selected: LibraryTab = .todos
+    @State private var viewModel = LibraryViewModel()
     @State private var showSheet: Bool = false
     private let adaptiveColumn = [
-        GridItem(.adaptive(minimum: 100)),
+        GridItem(.adaptive(minimum: 100), alignment: .top),
     ]
 
     var body: some View {
@@ -21,43 +20,38 @@ struct LibraryView: View {
                 LibraryViewHeader {
                     showSheet.toggle()
                 }
-                TextField("Pesquise por autor ou título", text: $text)
+                TextField("Pesquise por autor ou título", text: $viewModel.searchText)
                     .safeAreaInset(edge: .leading) { Image(systemName: "magnifyingglass") }
                     .padding(15)
                     .overlay(
                         RoundedRectangle(cornerRadius: 7)
                             .stroke(.secondary.opacity(0.5), lineWidth: 1)
                     )
-                Picker("", selection: $selected) {
+                Picker("", selection: $viewModel.selectedTab) {
                     Text("Todos").tag(LibraryTab.todos)
                     Text("Lidos").tag(LibraryTab.lidos)
                     Text("Favoritos").tag(LibraryTab.favoritos)
                     Text("Não lidos").tag(LibraryTab.naolidos)
                 }
                 .pickerStyle(.segmented)
-                switch selected {
-                case .todos:
-                    LazyVGrid(columns: adaptiveColumn, spacing: 20) {
-                        ForEach(1 ... 10, id: \.self) { _ in
-                            BookInfo(navigationStack: .library)
+                if viewModel.filteredBooks.isEmpty {
+                    Text(viewModel.emptyStateMessage)
+                        .foregroundStyle(.secondary)
+                        .padding(.top, 12)
+                } else {
+                    LazyVGrid(columns: adaptiveColumn, alignment: .center, spacing: 20) {
+                        ForEach(viewModel.filteredBooks) { book in
+                            BookInfo(
+                                navigationStack: .library,
+                                title: book.title,
+                                author: book.author
+                            )
                         }
                     }
-                case .lidos:
-                    Text("Nada por aqui")
-                case .favoritos:
-                    Text("Favoritos")
-                case .naolidos:
-                    Text("Não lidos")
                 }
             }
             .sheet(isPresented: $showSheet) {
-                VStack(alignment: .leading) {
-                    Text("Adicionar livro")
-                        .font(.headline)
-                    Spacer()
-                }
-                .padding()
-                .presentationDetents([.medium, .large])
+                AddBooksSheetView()
             }
         }
         .padding(.top)
