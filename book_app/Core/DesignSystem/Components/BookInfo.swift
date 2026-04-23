@@ -11,6 +11,9 @@ struct BookInfo: View {
     @Environment(AppCoordinator.self) private var coordinator
     var navigationStack: BookNavigationStack = .home
 
+    var title: String? = nil
+    var author: String? = nil
+
     var body: some View {
         Button {
             coordinator.pushBookDetail(on: navigationStack)
@@ -36,11 +39,11 @@ struct BookInfo: View {
                     )
                     .padding(5)
                 }
-                Text("Senhor dos Anéis")
+                Text(title ?? "Senhor dos Aneis")
                     .fontWeight(.semibold)
                     .lineLimit(3)
                     .fixedSize(horizontal: false, vertical: true)
-                Text("J.R.R Tolkien")
+                Text(author ?? "J.R.R Tolkien")
                     .font(.caption)
                     .foregroundStyle(.secondary)
             }

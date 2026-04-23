@@ -27,12 +27,6 @@ struct RootTabView: View {
             }
             .tag(TabItem.home)
 
-            BookClubView()
-                .tabItem {
-                    Label("Clube", systemImage: "person.3.fill")
-                }
-                .tag(TabItem.club)
-
             NavigationStack(path: $coordinator.libraryPath) {
                 LibraryView()
                     .navigationDestination(for: BookRoute.self) { route in
