@@ -11,6 +11,12 @@ struct BookDetailInfo: View {
     var body: some View {
         VStack(alignment: .leading, spacing: 16) {
             nameAndAuthorBook
+            CustomDropdownBookDetail(
+                options: ReadingStatus.allCases,
+                initialSelection: .notRead,
+            ) { selected in
+                print("Selecionado: \(selected.rawValue)")
+            }
             bookSpecs
             
             genreTexts
