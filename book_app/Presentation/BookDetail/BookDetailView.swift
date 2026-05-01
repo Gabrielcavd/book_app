@@ -9,6 +9,8 @@ import SwiftUI
 
 struct BookDetailView: View {
     @State private var isBookSaved = false
+    @State private var bookReview = BookReview()
+    
     func saveBook() {
         isBookSaved = true
     }
@@ -22,16 +24,7 @@ struct BookDetailView: View {
                     .frame(width: 220, height: 328)
                     .frame(maxWidth: .infinity)
                 
-//                HStack {
-//                    Image(systemName: "star.fill")
-//                        .foregroundStyle(.orange)
-//                        .font(.caption)
-//                    Text("4.5")
-//                        .font(.footnote)
-//                        .fontWeight(.semibold)
-//                }
-                
-                BookDetailInfo()
+                BookDetailInfo(bookReview: $bookReview)
                 
                 Divider()
                     .padding(.vertical)

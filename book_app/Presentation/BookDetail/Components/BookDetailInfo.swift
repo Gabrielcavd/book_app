@@ -8,15 +8,20 @@
 import SwiftUI
 
 struct BookDetailInfo: View {
+    @Binding var bookReview: BookReview
+    
     var body: some View {
         VStack(alignment: .leading, spacing: 16) {
             nameAndAuthorBook
+            
+            RatingView(bookReview: $bookReview)
+            
             CustomDropdownBookDetail(
                 options: ReadingStatus.allCases,
                 initialSelection: .notRead,
-            ) { selected in
-                print("Selecionado: \(selected.rawValue)")
-            }
+                bookReview: $bookReview
+            )
+            
             bookSpecs
             
             genreTexts
@@ -121,8 +126,4 @@ struct BookDetailInfo: View {
                 .padding(.bottom, 6)
         }
     }
-}
-
-#Preview {
-    BookDetailInfo()
 }

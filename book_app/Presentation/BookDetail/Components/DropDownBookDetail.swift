@@ -15,20 +15,11 @@ protocol DropdownOption {
 struct CustomDropdownBookDetail<Option: Hashable & DropdownOption>: View {
     
     let options: [Option]
-    let onSelect: (Option) -> Void
+    let initialSelection: Option
+    @Binding var bookReview: BookReview
     
     @State private var isExpanded = false
-    @State private var selectedOption: Option
-    
-    init(
-        options: [Option],
-        initialSelection: Option,
-        onSelect: @escaping (Option) -> Void
-    ) {
-        self.options = options
-        self._selectedOption = State(initialValue: initialSelection)
-        self.onSelect = onSelect
-    }
+    @State private var selectedOption: Option?
     
     var body: some View {
         VStack(spacing: 8) {
@@ -38,11 +29,11 @@ struct CustomDropdownBookDetail<Option: Hashable & DropdownOption>: View {
                 }
             } label: {
                 HStack(spacing: 16) {
-                    Image(systemName: selectedOption.icon)
+                    Image(systemName: initialSelection.icon)
                         .foregroundStyle(.black)
                         .textStyle(.body)
                     
-                    Text(selectedOption.title)
+                    Text(initialSelection.title)
                         .foregroundStyle(.black)
                         .textStyle(.body)
                     
@@ -72,8 +63,7 @@ struct CustomDropdownBookDetail<Option: Hashable & DropdownOption>: View {
                             }
                             
                             DispatchQueue.main.asyncAfter(deadline: .now() + 0.25) {
-                                    selectedOption = option
-                                    onSelect(option)
+                                bookReview.readingStatus = option as! ReadingStatus
                                 }
                         } label: {
                             HStack(spacing: 16) {
@@ -112,11 +102,3 @@ struct CustomDropdownBookDetail<Option: Hashable & DropdownOption>: View {
     }
 }
 
-#Preview {
-    CustomDropdownBookDetail(
-        options: ReadingStatus.allCases,
-        initialSelection: .notRead,
-    ) { selected in
-        print("Selecionado: \(selected.rawValue)")
-    }
-}
