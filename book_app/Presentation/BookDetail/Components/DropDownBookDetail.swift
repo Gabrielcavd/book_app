@@ -19,6 +19,7 @@ struct CustomDropdownBookDetail<Option: Hashable & DropdownOption>: View {
     @Binding var bookReview: BookReview
     
     @State private var isExpanded = false
+    @State private var isInitial = true
     @State private var selectedOption: Option?
     
     var body: some View {
@@ -29,11 +30,11 @@ struct CustomDropdownBookDetail<Option: Hashable & DropdownOption>: View {
                 }
             } label: {
                 HStack(spacing: 16) {
-                    Image(systemName: initialSelection.icon)
+                    Image(systemName: isInitial ? initialSelection.icon : selectedOption!.icon)
                         .foregroundStyle(.black)
                         .textStyle(.body)
                     
-                    Text(initialSelection.title)
+                    Text(isInitial ? initialSelection.title : selectedOption!.title)
                         .foregroundStyle(.black)
                         .textStyle(.body)
                     
@@ -61,10 +62,9 @@ struct CustomDropdownBookDetail<Option: Hashable & DropdownOption>: View {
                             withAnimation(.easeInOut(duration: 0.25)) {
                                 isExpanded = false
                             }
-                            
-                            DispatchQueue.main.asyncAfter(deadline: .now() + 0.25) {
-                                bookReview.readingStatus = option as! ReadingStatus
-                                }
+                            isInitial = false
+                            selectedOption = option
+                            bookReview.readingStatus = selectedOption as! ReadingStatus
                         } label: {
                             HStack(spacing: 16) {
                                 Image(systemName: option.icon)
