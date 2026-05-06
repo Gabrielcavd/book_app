@@ -2,7 +2,7 @@
 //  AddBooksSheetView.swift
 //  book_app
 //
-//  Created by Codex on 23/04/26.
+//  Created by Gabriel Cavalcante on 23/04/26.
 //
 
 import SwiftUI
@@ -27,7 +27,17 @@ struct AddBooksSheetView: View {
                             .stroke(.secondary.opacity(0.5), lineWidth: 1)
                     )
 
-                if viewModel.filteredBooks.isEmpty {
+                if viewModel.isLoading && viewModel.filteredBooks.isEmpty {
+                    ProgressView()
+                        .frame(maxWidth: .infinity, alignment: .center)
+                        .padding(.vertical, 24)
+                } else if let errorMessage = viewModel.errorMessage, viewModel.filteredBooks.isEmpty {
+                    Text(errorMessage)
+                        .font(.subheadline)
+                        .foregroundStyle(.secondary)
+                        .frame(maxWidth: .infinity, alignment: .center)
+                        .padding(.vertical, 24)
+                } else if viewModel.filteredBooks.isEmpty {
                     Text("Nenhum livro encontrado")
                         .font(.subheadline)
                         .foregroundStyle(.secondary)
@@ -36,10 +46,11 @@ struct AddBooksSheetView: View {
                 } else {
                     LazyVGrid(columns: adaptiveColumns, spacing: 20) {
                         ForEach(viewModel.filteredBooks) { book in
-                            BookInfo(
+                            AddBooksSheetBookCard(
                                 navigationStack: .library,
                                 title: book.title,
-                                author: book.author
+                                author: book.author,
+                                thumbnailURL: book.thumbnailURL
                             )
                         }
                     }
@@ -48,6 +59,12 @@ struct AddBooksSheetView: View {
             .padding()
         }
         .presentationDetents([.medium, .large])
+        .task {
+            await viewModel.loadInitialBooksIfNeeded()
+        }
+        .task(id: viewModel.searchText) {
+            await viewModel.handleSearchTextChanged()
+        }
     }
 }
 
