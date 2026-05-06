@@ -2,6 +2,8 @@
 <!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
 <plist version="1.0">
 <dict>
+	<key>GOOGLE_BOOKS_API_KEY</key>
+	<string>AIzaSyBMs2TWrezQ1UFKn7X8b_zW7QDvOyoIBvQ</string>
 	<key>UIDesignRequiresCompatibility</key>
 	<true/>
 </dict>
