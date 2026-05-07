@@ -15,7 +15,7 @@ struct RegisterView: View {
     @State private var selectedProfileImage: Image?
 
     var body: some View {
-        ScrollView(.vertical) {
+        ScrollView(.vertical, showsIndicators: false) {
             VStack(alignment: .leading) {
                 Image("logo")
                     .resizable()
