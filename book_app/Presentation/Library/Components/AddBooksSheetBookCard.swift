@@ -11,24 +11,22 @@ struct AddBooksSheetBookCard: View {
     @Environment(AppCoordinator.self) private var coordinator
 
     var navigationStack: BookNavigationStack = .library
-    let title: String
-    let author: String
-    let thumbnailURL: String?
+    let book: BookModel
 
     var body: some View {
         Button {
-            coordinator.pushBookDetail(on: navigationStack)
+            coordinator.pushBookDetail(on: navigationStack, book: book)
         } label: {
             VStack(alignment: .leading) {
                 ZStack(alignment: .topTrailing) {
-                    coverImage
+                    BookCoverImage(url: book.coverImageURL)
                         .frame(width: 103, height: 143)
 
                     HStack {
                         Image(systemName: "star.fill")
                             .foregroundStyle(.orange)
                             .font(.caption)
-                        Text("4.5")
+                        Text(book.averageRatingLabel)
                             .font(.footnote)
                             .fontWeight(.semibold)
                     }
@@ -40,11 +38,11 @@ struct AddBooksSheetBookCard: View {
                     .padding(5)
                 }
 
-                Text(title)
+                Text(book.title)
                     .fontWeight(.semibold)
                     .lineLimit(3)
                     .fixedSize(horizontal: false, vertical: true)
-                Text(author)
+                Text(book.primaryAuthorDisplay)
                     .font(.caption)
                     .foregroundStyle(.secondary)
             }
@@ -52,50 +50,9 @@ struct AddBooksSheetBookCard: View {
         }
         .buttonStyle(PressableButtonStyle())
     }
-
-    @ViewBuilder
-    private var coverImage: some View {
-        if let thumbnailURL, let imageURL = URL(string: thumbnailURL) {
-            AsyncImage(url: imageURL) { phase in
-                switch phase {
-                case .success(let image):
-                    image
-                        .resizable()
-                        .scaledToFit()
-                case .failure:
-                    fallbackImage
-                case .empty:
-                    loadingPlaceholder
-                @unknown default:
-                    fallbackImage
-                }
-            }
-        } else {
-            fallbackImage
-        }
-    }
-
-    private var loadingPlaceholder: some View {
-        ZStack {
-            RoundedRectangle(cornerRadius: 8)
-                .fill(.secondary.opacity(0.15))
-            ProgressView()
-                .controlSize(.small)
-        }
-    }
-
-    private var fallbackImage: some View {
-        Image("book")
-            .resizable()
-            .scaledToFit()
-    }
 }
 
 #Preview {
-    AddBooksSheetBookCard(
-        title: "Senhor dos Aneis",
-        author: "J.R.R Tolkien",
-        thumbnailURL: nil
-    )
-    .environment(AppCoordinator.previewLoggedIn())
+    AddBooksSheetBookCard(book: .sampleSenhorDosAneis)
+        .environment(AppCoordinator.previewLoggedIn())
 }

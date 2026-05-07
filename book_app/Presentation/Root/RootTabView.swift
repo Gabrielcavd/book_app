@@ -17,8 +17,8 @@ struct RootTabView: View {
                 HomeView()
                     .navigationDestination(for: BookRoute.self) { route in
                         switch route {
-                        case .detail:
-                            BookDetailView()
+                        case .detail(let book):
+                            BookDetailView(book: book)
                         }
                     }
             }
@@ -31,8 +31,8 @@ struct RootTabView: View {
                 LibraryView()
                     .navigationDestination(for: BookRoute.self) { route in
                         switch route {
-                        case .detail:
-                            BookDetailView()
+                        case .detail(let book):
+                            BookDetailView(book: book)
                         }
                     }
             }

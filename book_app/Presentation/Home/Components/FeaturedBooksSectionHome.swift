@@ -22,8 +22,8 @@ struct FeaturedBooksSectionHome: View {
             .padding(.horizontal)
             ScrollView(.horizontal) {
                 HStack {
-                    ForEach(0 ..< 4) { _ in
-                        BookInfo()
+                    ForEach(BookModel.homeCarouselSamples) { book in
+                        BookInfo(book: book)
                             .padding(.horizontal, 5)
                     }
                 }

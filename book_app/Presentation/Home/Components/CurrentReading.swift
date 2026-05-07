@@ -9,24 +9,20 @@ import SwiftUI
 
 struct CurrentReading: View {
     var seeMoreAction: () -> Void
-    
+
     var body: some View {
         VStack(spacing: 8) {
             titleAndSeeMoreButtonRow
             DSCurrentReading()
         }
     }
-    
+
     var titleAndSeeMoreButtonRow: some View {
         HStack {
             Text("Continuar lendo")
                 .textStyle(.titleSmall)
-            
+
             Spacer()
-            
-            Button("Ver mais", action: seeMoreAction)
-                .foregroundColor(.blue)
-                .textStyle(.body)
         }
     }
 }

@@ -40,11 +40,10 @@ struct LibraryView: View {
                         .padding(.top, 12)
                 } else {
                     LazyVGrid(columns: adaptiveColumn, alignment: .center, spacing: 20) {
-                        ForEach(viewModel.filteredBooks) { book in
+                        ForEach(viewModel.filteredBooks) { item in
                             BookInfo(
                                 navigationStack: .library,
-                                title: book.title,
-                                author: book.author
+                                book: item.book
                             )
                         }
                     }

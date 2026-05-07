@@ -9,11 +9,11 @@ import Foundation
 import Observation
 
 struct LibraryBookItem: Identifiable, Equatable {
-    let id = UUID()
-    let title: String
-    let author: String
+    let book: BookModel
     let isRead: Bool
     let isFavorite: Bool
+
+    var id: String { book.id }
 }
 
 @Observable
@@ -22,14 +22,14 @@ final class LibraryViewModel {
     var selectedTab: LibraryTab = .todos
 
     private let allBooks: [LibraryBookItem] = [
-        LibraryBookItem(title: "Senhor dos Aneis", author: "J.R.R. Tolkien", isRead: true, isFavorite: true),
-        LibraryBookItem(title: "Dom Casmurro", author: "Machado de Assis", isRead: true, isFavorite: false),
-        LibraryBookItem(title: "A Revolucao dos Bichos", author: "George Orwell", isRead: false, isFavorite: true),
-        LibraryBookItem(title: "O Pequeno Principe", author: "Antoine de Saint-Exupery", isRead: true, isFavorite: true),
-        LibraryBookItem(title: "1984", author: "George Orwell", isRead: false, isFavorite: false),
-        LibraryBookItem(title: "Harry Potter e a Pedra Filosofal", author: "J.K. Rowling", isRead: false, isFavorite: false),
-        LibraryBookItem(title: "A Paciente Silenciosa", author: "Alex Michaelides", isRead: true, isFavorite: false),
-        LibraryBookItem(title: "Memorias Postumas de Bras Cubas", author: "Machado de Assis", isRead: false, isFavorite: false),
+        LibraryBookItem(book: .sampleSenhorDosAneis, isRead: true, isFavorite: true),
+        LibraryBookItem(book: .sampleDomCasmurro, isRead: true, isFavorite: false),
+        LibraryBookItem(book: .sampleRevolucaoBichos, isRead: false, isFavorite: true),
+        LibraryBookItem(book: .samplePequenoPrincipe, isRead: true, isFavorite: true),
+        LibraryBookItem(book: .sample1984, isRead: false, isFavorite: false),
+        LibraryBookItem(book: .sampleHarryPotter, isRead: false, isFavorite: false),
+        LibraryBookItem(book: .samplePacienteSilenciosa, isRead: true, isFavorite: false),
+        LibraryBookItem(book: .sampleMemoriasBrasCubas, isRead: false, isFavorite: false),
     ]
 
     var filteredBooks: [LibraryBookItem] {
@@ -37,9 +37,9 @@ final class LibraryViewModel {
         let query = searchText.trimmingCharacters(in: .whitespacesAndNewlines)
         guard !query.isEmpty else { return booksForTab }
 
-        return booksForTab.filter { book in
-            book.title.localizedCaseInsensitiveContains(query) ||
-                book.author.localizedCaseInsensitiveContains(query)
+        return booksForTab.filter { item in
+            item.book.title.localizedCaseInsensitiveContains(query)
+                || item.book.primaryAuthorDisplay.localizedCaseInsensitiveContains(query)
         }
     }
 

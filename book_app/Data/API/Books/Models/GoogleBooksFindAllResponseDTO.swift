@@ -39,6 +39,7 @@ struct GoogleBooksVolumeInfoDTO: Decodable {
     let pageCount: Int?
     let categories: [String]
     let language: String?
+    let averageRating: Double?
     let imageLinks: GoogleBooksImageLinksDTO?
 
     private enum CodingKeys: String, CodingKey {
@@ -50,6 +51,7 @@ struct GoogleBooksVolumeInfoDTO: Decodable {
         case categories
         case language
         case imageLinks
+        case averageRating
     }
 
     init(from decoder: Decoder) throws {
@@ -62,6 +64,7 @@ struct GoogleBooksVolumeInfoDTO: Decodable {
         categories = try container.decodeIfPresent([String].self, forKey: .categories) ?? []
         language = try container.decodeIfPresent(String.self, forKey: .language)
         imageLinks = try container.decodeIfPresent(GoogleBooksImageLinksDTO.self, forKey: .imageLinks)
+        averageRating = try container.decodeIfPresent(Double.self, forKey: .averageRating)
     }
 }
 

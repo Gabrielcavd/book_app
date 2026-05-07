@@ -20,10 +20,9 @@ enum AuthRoute: Hashable {
 }
 
 enum BookRoute: Hashable {
-    case detail
+    case detail(BookModel)
 }
 
-/// Which navigation stack should receive book-detail pushes (used by `BookInfo`).
 enum BookNavigationStack: Hashable {
     case home
     case library
@@ -57,12 +56,12 @@ final class AppCoordinator {
         authPath.append(AuthRoute.forgotPassword)
     }
 
-    func pushBookDetail(on stack: BookNavigationStack) {
+    func pushBookDetail(on stack: BookNavigationStack, book: BookModel) {
         switch stack {
         case .home:
-            homePath.append(BookRoute.detail)
+            homePath.append(BookRoute.detail(book))
         case .library:
-            libraryPath.append(BookRoute.detail)
+            libraryPath.append(BookRoute.detail(book))
         }
     }
 }

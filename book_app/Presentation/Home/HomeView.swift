@@ -8,12 +8,9 @@
 import SwiftUI
 
 struct HomeView: View {
-    let books = [
-        BookInfo(),
-        BookInfo(),
-        BookInfo(),
-        BookInfo(),
-    ]
+    private var carouselBookInfos: [BookInfo] {
+        BookModel.homeCarouselSamples.map { BookInfo(book: $0) }
+    }
     
     var body: some View {
         ScrollView(.vertical) {
@@ -28,19 +25,19 @@ struct HomeView: View {
                 DSBookCarousel(
                     title: "Lidos",
                     seeMoreAction: {},
-                    books: books
+                    books: carouselBookInfos
                 )
                 
                 DSBookCarousel(
                     title: "Ler depois",
                     seeMoreAction: {},
-                    books: books
+                    books: carouselBookInfos
                 )
                 
                 DSBookCarousel(
                     title: "Não gostei",
                     seeMoreAction: {},
-                    books: books
+                    books: carouselBookInfos
                 )
                 .padding(.bottom, 16)
             }

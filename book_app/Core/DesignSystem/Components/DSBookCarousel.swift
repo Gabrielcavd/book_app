@@ -25,10 +25,6 @@ struct DSBookCarousel: View {
                 .textStyle(.titleSmall)
             
             Spacer()
-            
-            Button("Ver mais", action: seeMoreAction)
-                .foregroundColor(.blue)
-                .textStyle(.body)
         }
         .padding(.horizontal, 16)
     }
@@ -50,11 +46,7 @@ struct DSBookCarousel: View {
     DSBookCarousel(
         title: "lidos",
         seeMoreAction: {},
-        books: [
-            BookInfo(),
-            BookInfo(),
-            BookInfo(),
-            BookInfo(),
-        ]
+        books: BookModel.homeCarouselSamples.map { BookInfo(book: $0) }
     )
+    .environment(AppCoordinator.previewLoggedIn())
 }

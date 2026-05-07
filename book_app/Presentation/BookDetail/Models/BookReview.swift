@@ -8,7 +8,7 @@
 import Foundation
 
 struct BookReview {
-    var bookId: String = ""
+    var bookId: String
     var rating: Int = 0
     var opinion: String = ""
     var readingStatus: ReadingStatus = .notRead

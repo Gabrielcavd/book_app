@@ -8,9 +8,16 @@
 import SwiftUI
 
 struct BookDetailView: View {
+    let book: BookModel
+
     @State private var isBookSaved = false
-    @State private var bookReview = BookReview()
-    
+    @State private var bookReview: BookReview
+
+    init(book: BookModel) {
+        self.book = book
+        _bookReview = State(initialValue: BookReview(bookId: book.id))
+    }
+
     func saveBook() {
         isBookSaved = true
     }
@@ -18,17 +25,15 @@ struct BookDetailView: View {
     var body: some View {
         ScrollView(.vertical) {
             VStack(alignment: .leading) {
-                Image("book")
-                    .resizable()
-                    .scaledToFit()
+                BookCoverImage(url: book.coverImageURL)
                     .frame(width: 220, height: 328)
                     .frame(maxWidth: .infinity)
-                
-                BookDetailInfo(bookReview: $bookReview)
-                
+
+                BookDetailInfo(book: book, bookReview: $bookReview)
+
                 Divider()
                     .padding(.vertical)
-                
+
                 Text("Comentários")
                     .fontWeight(.semibold)
                 ForEach(1 ..< 5) { _ in
@@ -62,5 +67,7 @@ struct BookDetailView: View {
 }
 
 #Preview {
-    BookDetailView()
+    NavigationStack {
+        BookDetailView(book: .sampleSenhorDosAneis)
+    }
 }

@@ -56,22 +56,6 @@ struct LoginView: View {
                 }
                 .padding(EdgeInsets(top: 30, leading: 0, bottom: 20, trailing: 0))
 
-                HStack {
-                    line
-                    Text("Ou entre com")
-                        .foregroundStyle(.gray)
-                    line
-                }
-                .padding(.bottom, 28)
-
-                HStack(alignment: .center) {
-                    LoginOptionIcon(icon: "google")
-                        .padding(.trailing, 16)
-                    LoginOptionIcon(icon: "apple")
-                }
-                .frame(maxWidth: .infinity)
-                .padding(.bottom, 28)
-
                 Button("Ainda não tem uma conta?") {
                     coordinator.showRegister()
                 }

@@ -7,7 +7,7 @@
 
 import Foundation
 
-struct BookModel: Identifiable, Equatable {
+struct BookModel: Identifiable, Equatable, Hashable {
     let id: String
     let title: String
     let authors: [String]
@@ -17,4 +17,5 @@ struct BookModel: Identifiable, Equatable {
     let categories: [String]
     let language: String?
     let smallThumbnail: String
+    let averageRating: Double?
 }

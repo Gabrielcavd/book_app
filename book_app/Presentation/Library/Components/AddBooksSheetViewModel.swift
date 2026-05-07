@@ -8,20 +8,13 @@
 import Foundation
 import Observation
 
-struct AddBookItem: Identifiable, Equatable {
-    let id: String
-    let title: String
-    let author: String
-    let thumbnailURL: String?
-}
-
 @MainActor
 @Observable
 final class AddBooksSheetViewModel {
     var searchText: String = ""
     var isLoading: Bool = false
     var errorMessage: String?
-    private(set) var filteredBooks: [AddBookItem] = []
+    private(set) var filteredBooks: [BookModel] = []
     private var hasLoadedInitialBooks: Bool = false
     private let apiService: GoogleBooksAPIService?
     private let defaultSubject: String = "fiction"
@@ -66,8 +59,7 @@ final class AddBooksSheetViewModel {
         errorMessage = nil
 
         do {
-            let books = try await apiService.findAll(title: title, genre: genre, author: author)
-            filteredBooks = books.map(AddBookItem.init(book:))
+            filteredBooks = try await apiService.findAll(title: title, genre: genre, author: author)
         } catch let error as NetworkError {
             filteredBooks = []
             errorMessage = message(for: error)
@@ -88,16 +80,5 @@ final class AddBooksSheetViewModel {
         default:
             return "Não foi possível carregar os livros."
         }
-    }
-}
-
-private extension AddBookItem {
-    init(book: BookModel) {
-        let firstAuthor = book.authors.first?.trimmingCharacters(in: .whitespacesAndNewlines) ?? ""
-        id = book.id
-        title = book.title
-        author = firstAuthor.isEmpty ? "Autor desconhecido" : firstAuthor
-        let normalizedURL = book.smallThumbnail.replacingOccurrences(of: "http://", with: "https://")
-        thumbnailURL = normalizedURL.isEmpty ? nil : normalizedURL
     }
 }

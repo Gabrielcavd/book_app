@@ -9,26 +9,23 @@ import SwiftUI
 
 struct BookInfo: View {
     @Environment(AppCoordinator.self) private var coordinator
-    var navigationStack: BookNavigationStack = .home
 
-    var title: String? = nil
-    var author: String? = nil
+    var navigationStack: BookNavigationStack = .home
+    let book: BookModel
 
     var body: some View {
         Button {
-            coordinator.pushBookDetail(on: navigationStack)
+            coordinator.pushBookDetail(on: navigationStack, book: book)
         } label: {
             VStack(alignment: .leading) {
                 ZStack(alignment: .topTrailing) {
-                    Image("book")
-                        .resizable()
-                        .scaledToFit()
+                    BookCoverImage(url: book.coverImageURL)
                         .frame(width: 103, height: 143)
                     HStack {
                         Image(systemName: "star.fill")
                             .foregroundStyle(.orange)
                             .font(.caption)
-                        Text("4.5")
+                        Text(book.averageRatingLabel)
                             .font(.footnote)
                             .fontWeight(.semibold)
                     }
@@ -39,11 +36,11 @@ struct BookInfo: View {
                     )
                     .padding(5)
                 }
-                Text(title ?? "Senhor dos Aneis")
+                Text(book.title)
                     .fontWeight(.semibold)
                     .lineLimit(3)
                     .fixedSize(horizontal: false, vertical: true)
-                Text(author ?? "J.R.R Tolkien")
+                Text(book.primaryAuthorDisplay)
                     .font(.caption)
                     .foregroundStyle(.secondary)
             }
@@ -54,6 +51,6 @@ struct BookInfo: View {
 }
 
 #Preview {
-    BookInfo()
+    BookInfo(book: .sampleSenhorDosAneis)
         .environment(AppCoordinator.previewLoggedIn())
 }

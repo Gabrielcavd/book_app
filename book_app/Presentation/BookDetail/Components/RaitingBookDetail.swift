@@ -32,7 +32,7 @@ struct RatingView: View {
         .padding()
         .sheet(isPresented: $showModal) {
             RaintingModalBookDetail(
-                bookId: "123",
+                bookId: bookReview.bookId,
                 titles: titles,
                 bookReview: $bookReview,
             )

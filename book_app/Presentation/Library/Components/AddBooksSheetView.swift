@@ -48,9 +48,7 @@ struct AddBooksSheetView: View {
                         ForEach(viewModel.filteredBooks) { book in
                             AddBooksSheetBookCard(
                                 navigationStack: .library,
-                                title: book.title,
-                                author: book.author,
-                                thumbnailURL: book.thumbnailURL
+                                book: book
                             )
                         }
                     }

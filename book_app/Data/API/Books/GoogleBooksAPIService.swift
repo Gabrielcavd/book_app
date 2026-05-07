@@ -8,7 +8,7 @@
 import Foundation
 
 struct GoogleBooksAPIService {
-    private static let fieldsQueryValue = "kind,totalItems,items(id,volumeInfo(title,authors,publishedDate,description,pageCount,categories,language,imageLinks(smallThumbnail)))"
+    private static let fieldsQueryValue = "kind,totalItems,items(id,volumeInfo(title,authors,publishedDate,description,pageCount,categories,language,averageRating,imageLinks(smallThumbnail)))"
 
     private let networkClient: NetworkClient
     private let decoder: JSONDecoder
@@ -93,5 +93,6 @@ private extension BookModel {
         self.categories = dto.volumeInfo.categories
         self.language = dto.volumeInfo.language
         self.smallThumbnail = dto.volumeInfo.imageLinks?.smallThumbnail ?? ""
+        self.averageRating = dto.volumeInfo.averageRating
     }
 }
