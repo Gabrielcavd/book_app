@@ -30,18 +30,27 @@ enum BookNavigationStack: Hashable {
 
 @Observable
 final class AppCoordinator {
+    /// Active account; `nil` when logged out.
+    var currentUserId: UUID?
     var isLoggedIn = false
     var selectedTab: TabItem = .home
     var authPath = NavigationPath()
     var homePath = NavigationPath()
     var libraryPath = NavigationPath()
 
-    func logIn() {
+    func restoreSession(activeUserId: UUID?) {
+        currentUserId = activeUserId
+        isLoggedIn = activeUserId != nil
+    }
+
+    func logIn(userId: UUID) {
+        currentUserId = userId
         isLoggedIn = true
         authPath = NavigationPath()
     }
 
     func logOut() {
+        currentUserId = nil
         isLoggedIn = false
         authPath = NavigationPath()
         homePath = NavigationPath()
@@ -69,6 +78,7 @@ final class AppCoordinator {
 extension AppCoordinator {
     static func previewLoggedIn() -> AppCoordinator {
         let coordinator = AppCoordinator()
+        coordinator.currentUserId = UUID()
         coordinator.isLoggedIn = true
         return coordinator
     }
