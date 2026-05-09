@@ -6,8 +6,12 @@
 //
 
 import SwiftUI
+import SwiftData
 
 struct LibraryView: View {
+    @Environment(AppCoordinator.self) private var coordinator
+    @Environment(\.modelContext) private var modelContext
+
     @State private var viewModel = LibraryViewModel()
     @State private var showSheet: Bool = false
     private let adaptiveColumn = [
@@ -35,9 +39,19 @@ struct LibraryView: View {
                 }
                 .pickerStyle(.segmented)
                 if viewModel.filteredBooks.isEmpty {
-                    Text(viewModel.emptyStateMessage)
-                        .foregroundStyle(.secondary)
-                        .padding(.top, 12)
+                    VStack(spacing: 12) {
+                        Text(viewModel.emptyStateMessage)
+                            .foregroundStyle(.secondary)
+                            .multilineTextAlignment(.center)
+                        if viewModel.selectedTab == .todos,
+                           viewModel.searchText.trimmingCharacters(in: .whitespacesAndNewlines).isEmpty {
+                            Button("Adicionar livros") {
+                                showSheet = true
+                            }
+                            .buttonStyle(.borderedProminent)
+                        }
+                    }
+                    .padding(.top, 12)
                 } else {
                     LazyVGrid(columns: adaptiveColumn, alignment: .center, spacing: 20) {
                         ForEach(viewModel.filteredBooks) { item in
@@ -55,6 +69,26 @@ struct LibraryView: View {
         }
         .padding(.top)
         .padding(.horizontal)
+        .onAppear {
+            viewModel.refresh(modelContext: modelContext, userId: coordinator.currentUserId)
+        }
+        .onChange(of: coordinator.currentUserId) { _, _ in
+            viewModel.refresh(modelContext: modelContext, userId: coordinator.currentUserId)
+        }
+        .onChange(of: viewModel.selectedTab) { _, _ in
+            viewModel.refresh(modelContext: modelContext, userId: coordinator.currentUserId)
+        }
+        .onChange(of: viewModel.searchText) { _, _ in
+            viewModel.refresh(modelContext: modelContext, userId: coordinator.currentUserId)
+        }
+        .onChange(of: showSheet) { _, isPresented in
+            if !isPresented {
+                viewModel.refresh(modelContext: modelContext, userId: coordinator.currentUserId)
+            }
+        }
+        .onReceive(NotificationCenter.default.publisher(for: .savedBooksDidChange)) { _ in
+            viewModel.refresh(modelContext: modelContext, userId: coordinator.currentUserId)
+        }
     }
 }
 
@@ -69,5 +103,6 @@ enum LibraryTab {
     NavigationStack {
         LibraryView()
     }
+    .appModelContainer(AppModelContainer.previewInMemory)
     .environment(AppCoordinator.previewLoggedIn())
 }

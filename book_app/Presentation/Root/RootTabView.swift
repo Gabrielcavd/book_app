@@ -5,6 +5,7 @@
 //  Created by Gabriel Cavalcante on 06/03/26.
 //
 
+import SwiftData
 import SwiftUI
 
 struct RootTabView: View {
@@ -41,16 +42,19 @@ struct RootTabView: View {
             }
             .tag(TabItem.library)
 
-            ProfileView()
-                .tabItem {
-                    Label("Perfil", systemImage: "person.crop.circle.fill")
-                }
-                .tag(TabItem.profile)
+            NavigationStack {
+                ProfileView()
+            }
+            .tabItem {
+                Label("Perfil", systemImage: "person.crop.circle.fill")
+            }
+            .tag(TabItem.profile)
         }
     }
 }
 
 #Preview {
     RootTabView()
+        .appModelContainer(AppModelContainer.previewInMemory)
         .environment(AppCoordinator.previewLoggedIn())
 }

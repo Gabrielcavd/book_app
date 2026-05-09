@@ -5,10 +5,12 @@
 //  Created by Gabriel Cavalcante on 05/03/26.
 //
 
+import SwiftData
 import SwiftUI
 
 struct LoginView: View {
     @Environment(AppCoordinator.self) private var coordinator
+    @Environment(\.modelContext) private var modelContext
 
     @State private var viewModel = LoginViewModel()
 
@@ -33,6 +35,7 @@ struct LoginView: View {
                 .padding(.vertical, 28)
                 .onChange(of: viewModel.email) { _, _ in
                     viewModel.clearEmailError()
+                    viewModel.clearFormError()
                 }
 
                 TextFieldLabel(
@@ -44,6 +47,13 @@ struct LoginView: View {
                 )
                 .onChange(of: viewModel.password) { _, _ in
                     viewModel.clearPasswordError()
+                    viewModel.clearFormError()
+                }
+
+                if let formError = viewModel.formError {
+                    Text(formError)
+                        .font(.footnote)
+                        .foregroundStyle(.red)
                 }
 
                 Button("Esqueceu sua senha?") {
@@ -52,7 +62,7 @@ struct LoginView: View {
                 .frame(maxWidth: .infinity, alignment: .trailing)
 
                 PrimaryButton(title: "Entrar") {
-                    viewModel.logIn(using: coordinator)
+                    viewModel.logIn(using: coordinator, modelContext: modelContext)
                 }
                 .padding(EdgeInsets(top: 30, leading: 0, bottom: 20, trailing: 0))
 
@@ -72,5 +82,6 @@ struct LoginView: View {
 
 #Preview {
     LoginView()
+        .appModelContainer(AppModelContainer.previewInMemory)
         .environment(AppCoordinator())
 }

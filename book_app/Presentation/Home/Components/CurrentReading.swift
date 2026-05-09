@@ -8,12 +8,13 @@
 import SwiftUI
 
 struct CurrentReading: View {
+    let book: BookModel?
     var seeMoreAction: () -> Void
 
     var body: some View {
         VStack(spacing: 8) {
             titleAndSeeMoreButtonRow
-            DSCurrentReading()
+            DSCurrentReading(book: book)
         }
     }
 
@@ -28,5 +29,5 @@ struct CurrentReading: View {
 }
 
 #Preview {
-    CurrentReading(seeMoreAction: {})
+    CurrentReading(book: nil, seeMoreAction: {})
 }

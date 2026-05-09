@@ -5,9 +5,11 @@
 //  Created by Gabriel Cavalcante on 06/03/26.
 //
 
+import SwiftData
 import SwiftUI
 
 struct RootAppView: View {
+    @Environment(\.modelContext) private var modelContext
     @State private var coordinator = AppCoordinator()
 
     var body: some View {
@@ -30,6 +32,27 @@ struct RootAppView: View {
             }
         }
         .environment(coordinator)
+        .task {
+            await restoreSessionIfNeeded()
+        }
+    }
+
+    @MainActor
+    private func restoreSessionIfNeeded() async {
+        do {
+            let id = try SessionRepository(context: modelContext).activeUserId()
+            if let id {
+                let exists = UserRepository(context: modelContext).fetchUser(byId: id) != nil
+                coordinator.restoreSession(activeUserId: exists ? id : nil)
+                if !exists {
+                    try SessionRepository(context: modelContext).clearSession()
+                }
+            } else {
+                coordinator.restoreSession(activeUserId: nil)
+            }
+        } catch {
+            coordinator.restoreSession(activeUserId: nil)
+        }
     }
 }
 
