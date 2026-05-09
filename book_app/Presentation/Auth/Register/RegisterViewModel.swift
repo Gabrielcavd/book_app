@@ -7,6 +7,7 @@
 
 import Foundation
 import Observation
+import SwiftData
 
 @Observable
 final class RegisterViewModel {
@@ -19,11 +20,13 @@ final class RegisterViewModel {
     private(set) var fullNameError: String?
     private(set) var passwordError: String?
     private(set) var confirmPasswordError: String?
+    private(set) var formError: String?
 
     func clearEmailError() { emailError = nil }
     func clearFullNameError() { fullNameError = nil }
     func clearPasswordError() { passwordError = nil }
     func clearConfirmPasswordError() { confirmPasswordError = nil }
+    func clearFormError() { formError = nil }
 
     @discardableResult
     func validateEmail() -> Bool {
@@ -76,8 +79,29 @@ final class RegisterViewModel {
         return emailOK && nameOK && passwordOK && confirmOK
     }
 
-    func register() {
-        guard validateForm() else { return }
-        // TODO: call registration API when available
+    @discardableResult
+    func register(
+        modelContext: ModelContext,
+        coordinator: AppCoordinator,
+        avatarData: Data?
+    ) -> Bool {
+        formError = nil
+        guard validateForm() else { return false }
+        do {
+            let user = try AuthService(context: modelContext).register(
+                email: email,
+                fullName: fullName,
+                password: password,
+                avatarData: avatarData
+            )
+            coordinator.logIn(userId: user.id)
+            return true
+        } catch UserRepositoryError.emailAlreadyRegistered {
+            emailError = UserRepositoryError.emailAlreadyRegistered.localizedDescription
+            return false
+        } catch {
+            formError = "Não foi possível criar a conta."
+            return false
+        }
     }
 }

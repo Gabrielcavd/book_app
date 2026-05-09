@@ -12,6 +12,7 @@ struct book_app: App {
     var body: some Scene {
         WindowGroup {
             RootAppView()
+                .appModelContainer(AppModelContainer.live)
         }
     }
 }

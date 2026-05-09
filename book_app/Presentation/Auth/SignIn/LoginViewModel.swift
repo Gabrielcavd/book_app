@@ -7,6 +7,7 @@
 
 import Foundation
 import Observation
+import SwiftData
 
 @Observable
 final class LoginViewModel {
@@ -15,6 +16,7 @@ final class LoginViewModel {
 
     private(set) var emailError: String?
     private(set) var passwordError: String?
+    private(set) var formError: String?
 
     func clearEmailError() {
         emailError = nil
@@ -22,6 +24,10 @@ final class LoginViewModel {
 
     func clearPasswordError() {
         passwordError = nil
+    }
+
+    func clearFormError() {
+        formError = nil
     }
 
     @discardableResult
@@ -50,8 +56,14 @@ final class LoginViewModel {
         return emailOK && passwordOK
     }
 
-    func logIn(using coordinator: AppCoordinator) {
+    func logIn(using coordinator: AppCoordinator, modelContext: ModelContext) {
+        formError = nil
         guard validateForm() else { return }
-        coordinator.logIn()
+        do {
+            let user = try AuthService(context: modelContext).logIn(email: email, password: password)
+            coordinator.logIn(userId: user.id)
+        } catch {
+            formError = "Email ou senha incorretos."
+        }
     }
 }

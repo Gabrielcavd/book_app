@@ -6,13 +6,19 @@
 //
 
 import PhotosUI
+import SwiftData
 import SwiftUI
 import UIKit
 
 struct RegisterView: View {
+    @Environment(AppCoordinator.self) private var coordinator
+    @Environment(\.dismiss) private var dismiss
+    @Environment(\.modelContext) private var modelContext
+
     @State private var viewModel = RegisterViewModel()
     @State private var selectedPhotoItem: PhotosPickerItem?
     @State private var selectedProfileImage: Image?
+    @State private var selectedAvatarData: Data?
 
     var body: some View {
         ScrollView(.vertical, showsIndicators: false) {
@@ -75,8 +81,20 @@ struct RegisterView: View {
                     viewModel.clearConfirmPasswordError()
                 }
 
+                if let formError = viewModel.formError {
+                    Text(formError)
+                        .font(.footnote)
+                        .foregroundStyle(.red)
+                }
+
                 PrimaryButton(title: "Registrar") {
-                    viewModel.register()
+                    if viewModel.register(
+                        modelContext: modelContext,
+                        coordinator: coordinator,
+                        avatarData: selectedAvatarData
+                    ) {
+                        dismiss()
+                    }
                 }
                 .padding(EdgeInsets(top: 60, leading: 0, bottom: 20, trailing: 0))
             }
@@ -123,6 +141,7 @@ struct RegisterView: View {
     private func loadSelectedProfileImage(from item: PhotosPickerItem?) {
         guard let item else {
             selectedProfileImage = nil
+            selectedAvatarData = nil
             return
         }
 
@@ -133,12 +152,14 @@ struct RegisterView: View {
             else {
                 await MainActor.run {
                     selectedProfileImage = nil
+                    selectedAvatarData = nil
                 }
                 return
             }
 
             await MainActor.run {
                 selectedProfileImage = Image(uiImage: uiImage)
+                selectedAvatarData = imageData
             }
         }
     }
@@ -146,4 +167,6 @@ struct RegisterView: View {
 
 #Preview {
     RegisterView()
+        .appModelContainer(AppModelContainer.previewInMemory)
+        .environment(AppCoordinator())
 }

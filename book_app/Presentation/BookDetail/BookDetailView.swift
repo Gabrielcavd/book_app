@@ -6,20 +6,19 @@
 //
 
 import SwiftUI
+import SwiftData
 
 struct BookDetailView: View {
     let book: BookModel
 
-    @State private var isBookSaved = false
-    @State private var bookReview: BookReview
+    @Environment(AppCoordinator.self) private var coordinator
+    @Environment(\.modelContext) private var modelContext
+
+    @State private var viewModel: BookDetailViewModel
 
     init(book: BookModel) {
         self.book = book
-        _bookReview = State(initialValue: BookReview(bookId: book.id))
-    }
-
-    func saveBook() {
-        isBookSaved = true
+        _viewModel = State(initialValue: BookDetailViewModel(book: book))
     }
 
     var body: some View {
@@ -29,7 +28,13 @@ struct BookDetailView: View {
                     .frame(width: 220, height: 328)
                     .frame(maxWidth: .infinity)
 
-                BookDetailInfo(book: book, bookReview: $bookReview)
+                BookDetailInfo(
+                    book: book,
+                    bookReview: Binding(
+                        get: { viewModel.bookReview },
+                        set: { viewModel.bookReview = $0 }
+                    )
+                )
 
                 Divider()
                     .padding(.vertical)
@@ -44,15 +49,30 @@ struct BookDetailView: View {
         .scrollIndicators(.hidden)
         .padding(.top)
         .padding(.horizontal, 16)
+        .onAppear {
+            viewModel.onAppear(modelContext: modelContext, userId: coordinator.currentUserId)
+        }
+        .onChange(of: viewModel.bookReview) { _, _ in
+            viewModel.onReviewChanged(modelContext: modelContext, userId: coordinator.currentUserId)
+        }
         .toolbar {
             ToolbarItem(placement: .topBarTrailing) {
                 HStack {
                     Menu {
-                        Button("Lidos", action: saveBook)
-                        Button("Favoritos", action: saveBook)
-                        Button("Não lidos", action: saveBook)
+                        Button("Lidos") {
+                            viewModel.markAsRead(modelContext: modelContext, userId: coordinator.currentUserId)
+                        }
+                        Button("Favoritos") {
+                            viewModel.markAsFavorite(modelContext: modelContext, userId: coordinator.currentUserId)
+                        }
+                        Button("Não lidos") {
+                            viewModel.markAsNotRead(modelContext: modelContext, userId: coordinator.currentUserId)
+                        }
+                        Button("Não gostei", role: .destructive) {
+                            viewModel.markAsDisliked(modelContext: modelContext, userId: coordinator.currentUserId)
+                        }
                     } label: {
-                        Image(systemName: isBookSaved ? "bookmark.fill" : "bookmark")
+                        Image(systemName: viewModel.isSavedToLibrary ? "bookmark.fill" : "bookmark")
                             .font(.title3)
                             .padding(.trailing, 15)
                             .tint(.primary)
@@ -68,6 +88,21 @@ struct BookDetailView: View {
 
 #Preview {
     NavigationStack {
-        BookDetailView(book: .sampleSenhorDosAneis)
+        BookDetailView(
+            book: BookModel(
+                id: "preview",
+                title: "Preview",
+                authors: ["Autor"],
+                publishedDate: "2020",
+                description: "Desc",
+                pageCount: 100,
+                categories: ["Ficção"],
+                language: "pt",
+                smallThumbnail: "",
+                averageRating: 4
+            )
+        )
     }
+    .appModelContainer(AppModelContainer.previewInMemory)
+    .environment(AppCoordinator.previewLoggedIn())
 }

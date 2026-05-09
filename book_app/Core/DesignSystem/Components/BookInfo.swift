@@ -51,6 +51,6 @@ struct BookInfo: View {
 }
 
 #Preview {
-    BookInfo(book: .sampleSenhorDosAneis)
+    BookInfo(book: .previewStub)
         .environment(AppCoordinator.previewLoggedIn())
 }

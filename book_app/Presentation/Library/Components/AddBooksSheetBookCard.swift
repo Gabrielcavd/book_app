@@ -53,6 +53,6 @@ struct AddBooksSheetBookCard: View {
 }
 
 #Preview {
-    AddBooksSheetBookCard(book: .sampleSenhorDosAneis)
+    AddBooksSheetBookCard(book: .previewStub)
         .environment(AppCoordinator.previewLoggedIn())
 }

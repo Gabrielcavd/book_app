@@ -19,3 +19,18 @@ struct BookModel: Identifiable, Equatable, Hashable {
     let smallThumbnail: String
     let averageRating: Double?
 }
+
+extension BookModel {
+    static let previewStub = BookModel(
+        id: "preview-stub",
+        title: "Livro de exemplo",
+        authors: ["Autor Exemplo"],
+        publishedDate: "2020-01-01",
+        description: "Descrição de exemplo para preview.",
+        pageCount: 200,
+        categories: ["Ficção"],
+        language: "pt",
+        smallThumbnail: "",
+        averageRating: 4.5
+    )
+}

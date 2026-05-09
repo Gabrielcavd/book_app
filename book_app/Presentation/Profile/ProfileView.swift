@@ -6,17 +6,20 @@
 //
 
 import SwiftUI
+import SwiftData
 
 struct ProfileView: View {
     @Environment(AppCoordinator.self) private var coordinator
+    @Environment(\.modelContext) private var modelContext
+
     @State private var viewModel = ProfileViewModel()
 
     var body: some View {
         ScrollView(.vertical) {
             VStack(alignment: .leading, spacing: 24) {
                 ProfileViewHeader(
-                    fullName: viewModel.fullName,
-                    email: viewModel.email,
+                    fullName: viewModel.fullName.isEmpty ? "Perfil" : viewModel.fullName,
+                    email: viewModel.email.isEmpty ? "" : viewModel.email,
                     profileImageName: viewModel.profileImageName,
                     profileImageData: viewModel.profileImageData
                 ) {
@@ -33,14 +36,41 @@ struct ProfileView: View {
             }
             .padding(.horizontal)
         }
+        .toolbar {
+            ToolbarItem(placement: .topBarTrailing) {
+                Button("Sair") {
+                    logOut()
+                }
+            }
+        }
         .sheet(isPresented: $viewModel.isShowingEditProfile) {
             EditProfileView(
                 data: viewModel.editableData,
                 fallbackImageName: viewModel.profileImageName
             ) { updatedData in
-                viewModel.updateProfile(with: updatedData)
+                viewModel.updateProfile(
+                    modelContext: modelContext,
+                    userId: coordinator.currentUserId,
+                    with: updatedData
+                )
             }
         }
+        .onAppear {
+            viewModel.refresh(modelContext: modelContext, userId: coordinator.currentUserId)
+        }
+        .onChange(of: coordinator.currentUserId) { _, _ in
+            viewModel.refresh(modelContext: modelContext, userId: coordinator.currentUserId)
+        }
+        .onReceive(NotificationCenter.default.publisher(for: .savedBooksDidChange)) { _ in
+            viewModel.refresh(modelContext: modelContext, userId: coordinator.currentUserId)
+        }
+    }
+
+    private func logOut() {
+        do {
+            try AuthService(context: modelContext).logOut()
+        } catch {}
+        coordinator.logOut()
     }
 
     private var statsSection: some View {
@@ -81,8 +111,8 @@ struct ProfileView: View {
                 .fontWeight(.bold)
 
             if viewModel.hasReviews {
-                ForEach(viewModel.reviews) { _ in
-                    BookDetailComments()
+                ForEach(viewModel.reviews) { review in
+                    ProfileReviewRow(review: review)
                 }
             } else {
                 ProfileEmptyReviews {
@@ -93,7 +123,38 @@ struct ProfileView: View {
     }
 }
 
+private struct ProfileReviewRow: View {
+    let review: ProfileReview
+
+    var body: some View {
+        VStack(alignment: .leading, spacing: 8) {
+            Text(review.title)
+                .font(.subheadline.bold())
+            HStack {
+                ForEach(1 ... 5, id: \.self) { index in
+                    Image(systemName: index <= review.rating ? "star.fill" : "star")
+                        .foregroundStyle(.orange)
+                        .font(.caption2)
+                }
+            }
+            Text(review.content)
+                .font(.subheadline)
+        }
+        .padding()
+        .frame(maxWidth: .infinity, alignment: .leading)
+        .background(
+            RoundedRectangle(cornerRadius: 24)
+                .fill(Color(.systemBackground))
+                .shadow(color: .black.opacity(0.08), radius: 10, x: 0, y: 4)
+        )
+        .padding(.bottom, 8)
+    }
+}
+
 #Preview {
-    ProfileView()
-        .environment(AppCoordinator.previewLoggedIn())
+    NavigationStack {
+        ProfileView()
+    }
+    .appModelContainer(AppModelContainer.previewInMemory)
+    .environment(AppCoordinator.previewLoggedIn())
 }

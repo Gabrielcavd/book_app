@@ -2,6 +2,8 @@
 //  BookCoverImage.swift
 //  book_app
 //
+//  Created by Gabriel Cavalcante on 09/05/26.
+//
 //  Reusable async cover from URL with placeholder fallback.
 //
 
@@ -43,8 +45,12 @@ struct BookCoverImage: View {
     }
 
     private var fallbackImage: some View {
-        Image("book")
-            .resizable()
-            .scaledToFit()
+        ZStack {
+            RoundedRectangle(cornerRadius: 8)
+                .fill(.secondary.opacity(0.15))
+            Image(systemName: "photo")
+                .font(.title3)
+                .foregroundStyle(.secondary)
+        }
     }
 }

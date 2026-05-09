@@ -32,7 +32,7 @@ struct DSBookCarousel: View {
     var booksCarousel: some View {
         ScrollView(.horizontal) {
             HStack {
-                ForEach(0 ..< books.count) { index in
+                ForEach(0 ..< books.count, id: \.self) { index in
                     books[index]
                         .padding(.horizontal, 8)
                 }
@@ -46,7 +46,10 @@ struct DSBookCarousel: View {
     DSBookCarousel(
         title: "lidos",
         seeMoreAction: {},
-        books: BookModel.homeCarouselSamples.map { BookInfo(book: $0) }
+        books: [
+            BookInfo(book: .previewStub),
+            BookInfo(book: .previewStub),
+        ]
     )
     .environment(AppCoordinator.previewLoggedIn())
 }
